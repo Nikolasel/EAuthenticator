@@ -2,7 +2,6 @@ let assert = require('assert');
 let HOTP = require('../lib/hotp.js');
 let TOTP = require('../lib/totp.js');
 let secret = 'EK6QV7UW64YOSIDB';
-let totp = new TOTP(secret);
 let hotp = new HOTP(secret);
 let counter = 0;
 
@@ -20,12 +19,21 @@ describe('HOTP Test', function(){
     it('Complete Test', function(){
         assert.equal(hotp.getPin(counter), 540854);
     });
+    it('RFC Test', function(){
+        let se = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
+        let h = new HOTP(se);
+        assert.equal(h.getPin(0), 755224);
+        assert.equal(h.getPin(1), 287082);
+        assert.equal(h.getPin(2), 359152);
+        assert.equal(h.getPin(3), 969429);
+        assert.equal(h.getPin(4), 338314);
+    });
 });
 
 describe('TOTP Test', function(){
-    it('Complete Test', function(){
-        //assert.equal(hotp.getPin(counter), 540854);
-        console.log(totp.getPin());
-        console.log(totp.getPinAsString());
+    it('RFC Test', function(){
+       let secret = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
+       let h = new TOTP(secret);
+       assert.equal(h.getPinWithTime(new Date(1970, 1, 1, 0, 0, 59)), 110493)
     });
 });
