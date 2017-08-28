@@ -1,13 +1,62 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Hello World!</title>
-    </head>
-    <body>
-    <h1>Hello World!</h1>
-        We are using node <script>document.write(process.versions.node)</script>,
-        Chrome <script>document.write(process.versions.chrome)</script>,
-        and Electron <script>document.write(process.versions.electron)</script>.
-    </body>
+<head>
+    <title>Google MDL Card : A very Wide Card  </title>
+    <!-- Material Design Lite -->
+    <link rel="stylesheet" href="node_modules/material-design-lite/material.min.css">
+    <script src="node_modules/material-design-lite/material.min.js"></script>
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+
+<style>
+    .main{padding:30px;}
+    .demo-card-wide.mdl-card {
+        width: 500px;
+    }
+    .demo-card-wide > .mdl-card__title {
+        color: #44c764;
+        height: 150px;
+        background: url('img/tintin.jpg') center/cover;
+    }
+    .demo-card-wide > .mdl-card__menu {
+        color: #fa4b2a;
+    }
+</style>
+
+<body>
+<div class="main">
+
+    <div class="demo-card-wide mdl-card mdl-shadow--8dp">
+        <!-- MDL Card Container -->
+
+        <div class="mdl-card__title">
+            <!-- MDL Card Title container -->
+            <h2 class="mdl-card__title-text">The Adventures of Tintin</h2>
+            <!-- title text -->
+        </div>
+
+        <!-- Supporting Text -->
+        <div class="mdl-card__supporting-text">
+            A Series of Animated Adventure Films. Lead Characters
+            are Tintin(A Journalist) and Snowy(dog)
+        </div>
+
+        <!-- Border and Action Elements -->
+        <div class="mdl-card__actions mdl-card--border">
+            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                $9.99 Buy Now
+            </a>
+        </div>
+
+        <!-- Menu button with Effects -->
+        <div class="mdl-card__menu">
+            <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                <i class="material-icons">event</i>
+            </button>
+        </div>
+
+    </div>
+</div> <!-- End of .main class -->
+</body>
 </html>
