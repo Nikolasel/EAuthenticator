@@ -1,7 +1,7 @@
 {
   "name": "EAuthenticator",
   "version": "0.0.1",
-  "description": "A Electron Desktop app compatible with Google Authenticator",
+  "description": "An Electron Desktop app compatible with Google Authenticator",
   "main": "main.js",
   "dependencies": {
     "electron": "^1.7.6",
@@ -15,6 +15,6 @@
   },
   "license": "GPL-3.0",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron ."
   }
 }
