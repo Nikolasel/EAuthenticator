@@ -32,9 +32,10 @@ describe('HOTP Test', function(){
 
 describe('TOTP Test', function(){
     it('RFC Test', function(){
-       let secret = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
-       let h = new TOTP(secret);
-       assert.equal(h.getPinWithTime(new Date(1970, 1, 1, 0, 0, 59)), 110493)
-        console.log(h.getPinAsString())
+       let sec = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
+       let h = new TOTP(sec);
+       assert.equal(h.getPinWithTime(new Date(1970, 1, 1, 0, 0, 59)), 110493);
+       let totp = new TOTP(secret);
+       console.log(totp.getPinAsString())
     });
 });

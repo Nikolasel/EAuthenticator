@@ -27,8 +27,8 @@ describe('Storage Test', function () {
 describe('Storage Crypto Test', function () {
     it('Check Storage', function () {
         StorageCrypto.testDecrypt().then(function (plaintext) {
-            let string = new TextDecoder("utf-8").decode(plaintext.data);
-            console.log(string);
+            //let string = new TextDecoder("utf-8").decode(plaintext.data);
+            console.log(plaintext.data);
             //plaintext.data // Uint8Array([0x01, 0x01, 0x01])
         });
     });
