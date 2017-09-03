@@ -24,7 +24,30 @@ describe('Storage Test', function () {
     });
 });
 
-describe('Storage Crypto Test', function () {
+describe('Storage with Crypto Test', function () {
+    it('Check Storage', function () {
+        let storage = new StorageEngine();
+        assert.equal(storage.isDataEncrypted(), true);
+        storage.setKey("1234");
+
+
+
+        assert.equal(storage.existsFileInPath(), true);
+        assert.equal(storage.getAllAccounts().length, 1);
+        assert.throws(function () {
+            storage.addAccount({name: "test", secret: "blala"})
+        }, Error, "Account exits");
+        assert.deepEqual(storage.getAccount("test"), {name: "test", secret: "blala"});
+        storage.deleteAccount("test");
+        assert.equal(storage.getAllAccounts().length, 0);
+        let stor2 = new StorageEngine();
+        assert.equal(stor2.existsFileInPath(), true);
+        assert.equal(stor2.getAllAccounts().length, 0);
+        storage.addAccount({name: "test", secret: "blala"})
+    });
+});
+
+/*describe('Storage Crypto Test', function () {
     it('Check Storage', function () {
         StorageCrypto.testDecrypt().then(function (plaintext) {
             //let string = new TextDecoder("utf-8").decode(plaintext.data);
@@ -39,4 +62,4 @@ describe('Storage Crypto Test', function () {
             //plaintext.data // Uint8Array([0x01, 0x01, 0x01])
         });
     });
-});
+});*/

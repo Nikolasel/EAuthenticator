@@ -1,63 +1,92 @@
 <html>
 <head>
-    <title>Google MDL Card : A very Wide Card  </title>
+    <title>EAuthenticator</title>
     <!-- Material Design Lite -->
     <link rel="stylesheet" href="node_modules/material-design-lite/material.min.css">
     <script src="node_modules/material-design-lite/material.min.js"></script>
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script>const remote = require('electron').remote; let app = remote.app; console.log(app.getPath("userData"))</script>
-
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue-red.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 
-<style>
-    .main{padding:30px;}
-    .demo-card-wide.mdl-card {
-        width: 500px;
-    }
-    .demo-card-wide > .mdl-card__title {
-        color: #44c764;
-        height: 150px;
-        background: url('img/tintin.jpg') center/cover;
-    }
-    .demo-card-wide > .mdl-card__menu {
-        color: #fa4b2a;
-    }
-</style>
 
 <body>
-<div class="main">
 
-    <div class="demo-card-wide mdl-card mdl-shadow--8dp">
-        <!-- MDL Card Container -->
 
-        <div class="mdl-card__title">
-            <!-- MDL Card Title container -->
-            <h2 class="mdl-card__title-text">The Adventures of Tintin</h2>
-            <!-- title text -->
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class = "mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-js-ripple-effect">
+    <header class = "mdl-layout__header">
+        <div class = "mdl-layout__header-row">
+            <!-- Title -->
+            <span class = "mdl-layout-title">EAuthenticator</span>
+            <!-- Add spacer, to align navigation to the right -->
+            <div class = "mdl-layout-spacer"></div>
+            <!-- Navigation -->
+            <nav class = "mdl-navigation">
+                <a class = "mdl-navigation__link" href = "">Settings</a>
+            </nav>
         </div>
+    </header>
 
-        <!-- Supporting Text -->
-        <div class="mdl-card__supporting-text">
-            A Series of Animated Adventure Films. Lead Characters
-            are Tintin(A Journalist) and Snowy(dog)
+
+
+    <main class = "mdl-layout__content">
+        <div class = "page-content">
+
+          <ul class="demo-list-item mdl-list">
+                <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      Bryan Cranston
+    </span>
+                </li>
+                <hr>
+                <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      Aaron Paul
+    </span>
+                </li>
+                <hr>
+                <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      Bob Odenkirk
+    </span>
+                </li>
+              <hr>
+              <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      Bryan Cranston
+    </span>
+              </li>
+              <hr>
+              <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      Aaron Paul
+    </span>
+              </li>
+              <hr>
+              <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      Bob Odenkirk
+    </span>
+              </li>
+            </ul>
+
+
         </div>
+    </main>
 
-        <!-- Border and Action Elements -->
-        <div class="mdl-card__actions mdl-card--border">
-            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-                $9.99 Buy Now
-            </a>
-        </div>
+</div>
 
-        <!-- Menu button with Effects -->
-        <div class="mdl-card__menu">
-            <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-                <i class="material-icons">event</i>
-            </button>
-        </div>
+<!-- Add Button -->
+<div class="mdl-button-right-bottom">
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-button--raised mdl-js-ripple-effect">
+        <i class="material-icons">add</i>
+    </button>
+</div>
 
-    </div>
-</div> <!-- End of .main class -->
+
+
 </body>
 </html>
