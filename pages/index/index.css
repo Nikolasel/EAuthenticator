@@ -7,12 +7,10 @@
 }
 
 .mdl-button-right-bottom {
-    cursor: pointer;
     position: fixed;
     right: 32px;
     bottom: 32px;
     z-index: 1;
-
 }
 
 .demo-list-item {
@@ -31,5 +29,4 @@ body {
 hr {
     height: 5px;
     border: 0;
-    /*box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);*/
 }

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EAuthenticator</title>
+    <!-- Material Design Lite -->
+    <link rel="stylesheet" href="../../node_modules/material-design-lite/material.min.css">
+    <script src="../../node_modules/material-design-lite/material.min.js"></script>
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../../node_modules/material-design-lite/dist/material.blue-red.min.css">
+    <link rel="stylesheet" href="add.css">
+    <script src="add.js"></script>
+</head>
+<body>
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class = "mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-js-ripple-effect">
+    <header class="mdl-layout__header">
+        <button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="history.go(-1);">
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Add Account</span>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </header>
+
+
+    <main class = "mdl-layout__content">
+        <div class = "page-content">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="name">
+                <label class="mdl-textfield__label" for="name">Account Name</label>
+            </div>
+            <hr>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="secret">
+                <label class="mdl-textfield__label" for="secret">Secret</label>
+            </div>
+
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="add-button">
+                Button
+            </button>
+
+            <!-- Left aligned menu below button -->
+            <button id="menu-lower-left"
+                    class="mdl-button mdl-js-button">
+                time based
+                <i class="material-icons">keyboard_arrow_down</i>
+            </button>
+
+            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                for="menu-lower-left">
+                <li class="mdl-menu__item" onclick="changeToTimeBased()">Time Based</li>
+                <li class="mdl-menu__item" onclick="changeToCounterBased()">Counter Based</li>
+            </ul>
+
+
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

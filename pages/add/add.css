@@ -1,0 +1,30 @@
+.mdl-layout__content {
+    padding: 24px 12px;
+}
+
+.mdl-layout {
+    margin-bottom: 2px;
+}
+
+.mdl-textfield {
+    width: 100%;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+hr {
+    height: 0px;
+    border: 0;
+}
+
+#add-button {
+    float: right;
+    margin-right: 20px;
+    text-transform: capitalize;
+}
+
+#menu-lower-left {
+    float: left;
+    margin-left: 20px;
+    text-transform: capitalize;
+}
