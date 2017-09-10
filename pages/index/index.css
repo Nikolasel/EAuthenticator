@@ -30,3 +30,9 @@ hr {
     height: 5px;
     border: 0;
 }
+
+.mdl-list__item-mid-content {
+    position: absolute;
+    left: 50%;
+    text-align: center;
+}
