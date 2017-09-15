@@ -31,8 +31,20 @@ hr {
     border: 0;
 }
 
-.mdl-list__item-mid-content {
+.list-pin {
     position: absolute;
-    left: 50%;
+    left: 40%;
     text-align: center;
+    color: #2196f3;
+    font-size: 150%;
+    display: block;
+    cursor: text;
+}
+
+.list-time {
+    position: absolute;
+    left: 60%;
+    text-align: center;
+    height: 50px;
+    width: 50px;
 }
