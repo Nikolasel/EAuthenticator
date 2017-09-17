@@ -8,7 +8,6 @@ if (remote !== undefined) app = remote.app;
 let TOTP = require('../../lib/totp');
 google.charts.load('current', {'packages':['corechart']});
 
-let accTime = 0;
 
 function toAdd() {
     win.loadURL(url.format({
@@ -37,7 +36,7 @@ function showAccounts() {
             listItem.className += " mdl-list__item";
 
             let span = document.createElement('span');
-            span.className += " mdl-list__item-primary-content";
+            span.className += " mdl-list__item-primary-content mdl-color-text--blue-grey-400";
             let name = accounts[i].name;
             span.innerHTML = name;
             listItem.appendChild(span);
@@ -53,7 +52,7 @@ function showAccounts() {
             let spanEnd = document.createElement('span');
             spanEnd.className += " mdl-list__item-secondary-action";
             //TODO Add tooltips <div class="mdl-tooltip" data-mdl-for="tt1"> Follow </div>
-            spanEnd.innerHTML =  '<button class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">create</i></button>' + ' <button class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons">delete</i></button>';
+            spanEnd.innerHTML =  '<button class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons mdl-color-text--blue-grey-400">create</i></button>' + ' <button class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons mdl-color-text--blue-grey-400">delete</i></button>';
             listItem.appendChild(spanEnd);
             //listItem.html = '<span class="mdl-list__item-primary-content">' + accounts[i].name + '</span>';
             list.appendChild(listItem);
@@ -62,7 +61,7 @@ function showAccounts() {
             times.push(spanTimer);
         }
         updatePin(accounts, pins);
-        setTimer(times, (getMSUntil30() / 1000));
+        updateAll(times, accounts, pins);
         window.setInterval(function () {
             updateAll(times, accounts, pins);
         }, 1000)
@@ -70,29 +69,12 @@ function showAccounts() {
 }
 
 function updateAll(times, accounts, pins) {
-    let newTime = 0;
-    if(times.length > 0) {
-        //let acTime = parseInt(times[0].innerHTML);
-        if(accTime > 1) {
-            newTime = accTime - 1;
-        } else {
-            newTime = 30;
-            updatePin(accounts, pins)
-        }
+    let seconds = getSecUntil30();
+    if(seconds === 30) {
+        updatePin(accounts, pins);
     }
     for(let i = 0; i < times.length; i++) {
-        //getChart(newTime);
-        //times[i].innerHTML = newTime;
-        accTime = newTime;
-        makeChart(newTime, times[i]);
-    }
-}
-
-function setTimer(times, time) {
-    for(let i = 0; i < times.length; i++) {
-        //times[i].innerHTML = time;
-        accTime = time;
-        makeChart(time, times[i]);
+        makeChart(seconds, times[i]);
     }
 }
 
@@ -105,21 +87,24 @@ function updatePin(accounts, accountsMid) {
 }
 
 
-function getMSUntil30() {
+function getSecUntil30() {
     let time = new Date();
+    while (time.getMilliseconds() > 100) {
+        time = new Date();
+    }
     let seconds = time.getSeconds();
     if(seconds >= 30) {
-        return (60 - seconds) * 1000;
+        return (60 - seconds);
     } else {
-        return (30 - seconds) * 1000;
+        return (30 - seconds);
     }
 }
 
-function makeChart(newTime, object) {
-    let filled = Math.round(newTime / 30 * 100);
+function makeChart(time, object) {
+    let filled = Math.round(time / 30 * 100);
     let unfilled = 100 - filled;
     let data = google.visualization.arrayToDataTable([
-        ['Pac Man', 'Percentage'],
+        ['Time', 'Percentage'],
         ['', unfilled],
         ['', filled]
     ]);
@@ -134,4 +119,5 @@ function makeChart(newTime, object) {
     };
     let chart = new google.visualization.PieChart(object);
     chart.draw(data, options);
+    //object.innerHTML = time;
 }
