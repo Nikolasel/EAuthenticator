@@ -48,3 +48,8 @@ hr {
     height: 50px;
     width: 50px;
 }
+
+.color-green{
+    color: green;
+    float: right;
+}
