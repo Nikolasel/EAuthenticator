@@ -1,11 +1,13 @@
 let win = require('electron').remote.getCurrentWindow();
 let Storage = require('../../lib/storage');
-let storage = new Storage();
 const path = require('path');
 const url = require('url');
 const remote = require('electron').remote;
 let app = undefined;
 if (remote !== undefined) app = remote.app;
+let ipcRenderer = require('electron').ipcRenderer;
+let storageOldData = ipcRenderer.sendSync('get-storage');
+let storage = new Storage(app, storageOldData, true);
 let TOTP = require('../../lib/totp');
 google.charts.load('current', {'packages': ['corechart']});
 
@@ -78,7 +80,7 @@ function showAccounts() {
             times.push(spanTimer);
         }
         updatePin(accounts, pins);
-        updateAll(times, accounts, pins);
+        //updateAll(times, accounts, pins);
         window.setInterval(function () {
             updateAll(times, accounts, pins);
         }, 1000)
@@ -192,6 +194,8 @@ function deleteAccount(name) {
     if (bool) {
         try {
             storage.deleteAccount(name);
+            let serialize = storage.serialize();
+            ipcRenderer.send('update-storage', serialize);
             remote.getCurrentWindow().reload();
         }
         catch (e) {

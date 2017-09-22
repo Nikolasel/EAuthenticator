@@ -1,3 +1,10 @@
+let app = require('electron').remote.app;
+let ipcRenderer = require('electron').ipcRenderer;
+let storageOldData = ipcRenderer.sendSync('get-storage');
+let Storage = require('../../lib/storage');
+let storage = new Storage(app, storageOldData, true);
+
+
 function changeToTimeBased() {
     document.getElementById("menu-lower-left").innerHTML = 'time based <i class="material-icons">keyboard_arrow_down</i>';
 }
@@ -5,4 +12,67 @@ function changeToTimeBased() {
 function changeToCounterBased() {
     document.getElementById("menu-lower-left").innerHTML = 'counter based <i class="material-icons">keyboard_arrow_down</i>';
 
+}
+
+function addAccount() {
+    let errors = false;
+    let account = document.getElementById('name');
+    let accountValue = account.value;
+    let secret = document.getElementById('secret');
+    let secretValue = secret.value;
+    //evaluate account
+    try {
+        if(accountValue === "") {
+            throw new Error ("Name can't be empty");
+        }
+        if(storage.isNameDuplicate(accountValue)) {
+            throw new Error ("Name already exists");
+        }
+    }
+    catch (e) {
+        let secretError = document.getElementById('accountError');
+        secretError.parentElement.className += ' is-invalid';
+        secretError.textContent = e.message;
+        errors = true;
+    }
+    //evaluate secret
+    try {
+        //To short
+        if(secretValue.length < 16) {
+            throw new Error ("Secret ist to short");
+        }
+        //False chars
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+        secretValue = secretValue.toUpperCase();
+        if(!allCharsInAlphabet(chars, secretValue)) {
+            throw new Error ("Secret is wrong. It can only contains 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.");
+        }
+    }
+    catch (e) {
+        let secretError = document.getElementById('secretError');
+        secretError.parentElement.className += ' is-invalid';
+        secretError.textContent = e.message;
+        errors = true;
+    }
+    if(!errors){
+        try{
+            storage.addAccount({name: accountValue, secret:secretValue});
+            let serialize = storage.serialize();
+            ipcRenderer.send('update-storage', serialize);
+            history.go(-1);
+        }
+        catch (e) {
+            alert(e.message);
+        }
+    }
+}
+
+
+function allCharsInAlphabet(alphabet, string) {
+    for(let i = 0; i < string.length; i++) {
+        if(!alphabet.includes(string[i])) {
+            return false;
+        }
+    }
+    return true;
 }

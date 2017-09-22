@@ -31,14 +31,16 @@
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="accDiv">
                 <input class="mdl-textfield__input" type="text" id="name">
                 <label class="mdl-textfield__label" for="name">Account Name</label>
+                <span class="mdl-textfield__error" id="accountError"></span>
             </div>
             <hr>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="secDiv">
                 <input class="mdl-textfield__input" type="text" id="secret">
                 <label class="mdl-textfield__label" for="secret">Secret</label>
+                <span class="mdl-textfield__error" id="secretError"></span>
             </div>
 
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="add-button">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="add-button" onclick="addAccount()">
                 Add
             </button>
 
