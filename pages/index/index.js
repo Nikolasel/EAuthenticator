@@ -13,6 +13,10 @@ google.charts.load('current', {'packages': ['corechart']});
 
 let sync = true;
 
+let dialog = undefined;
+let renameOld = "";
+let selectedForDelete = "";
+
 
 function toAdd() {
     win.loadURL(url.format({
@@ -60,13 +64,13 @@ function showAccounts() {
             btnRename.className += " mdl-button mdl-js-button mdl-button--icon";
             btnRename.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">create</i>";
             btnRename.addEventListener("click", function() {
-                renameAccount(name);
+                showRenameAccount(name);
             }, false);
             let btnDelete = document.createElement('button');
             btnDelete.className += " mdl-button mdl-js-button mdl-button--icon";
             btnDelete.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">delete</i>";
             btnDelete.addEventListener("click", function() {
-                deleteAccount(name);
+                showDeleteAccount(name);
             }, false);
             spanEnd.appendChild(btnRename);
             spanEnd.appendChild(btnDelete);
@@ -144,84 +148,58 @@ function makeChart(time, object) {
     //object.innerHTML = time;
 }
 
-function renameAccount(name) {
-    /*let res = prompt("New Name?", "");
-    if(res === "") {
-        alert("Empty");
-        return;
+function showRenameAccount(name) {
+    dialog = document.getElementById("dialog-rename");
+    let inputContainer = document.getElementById("container-rename");
+    inputContainer.className += ' is-dirty';
+    let input = document.getElementById("input-rename");
+    input.value = name;
+    renameOld = name;
+    dialog.showModal();
+}
+
+
+function showDeleteAccount(name) {
+    let header = document.getElementById("delete-header");
+    let str = header.innerHTML;
+    let newHeader = str.replace("...", name);
+    header.innerHTML = newHeader;
+    selectedForDelete = name;
+    dialog = document.getElementById("dialog-delete");
+    dialog.showModal();
+}
+
+
+function closeDialog() {
+    if(dialog !== undefined) {
+        dialog.close();
     }
+}
+
+function saveRename() {
+    let newName = document.getElementById("input-rename").value;
     try {
-        storage.renameAccount(name, res);
+        storage.renameAccount(renameOld, newName);
+        let serialize = storage.serialize();
+        ipcRenderer.send('update-storage', serialize);
+        closeDialog();
+        remote.getCurrentWindow().reload();
+    }
+    catch (e) {
+        let error = document.getElementById('renameError');
+        error.parentElement.className += ' is-invalid';
+        error.textContent = e.message;
+    }
+}
+
+function deleteAccount() {
+    try {
+        storage.deleteAccount(selectedForDelete);
+        let serialize = storage.serialize();
+        ipcRenderer.send('update-storage', serialize);
         remote.getCurrentWindow().reload();
     }
     catch (e) {
         alert(e.message);
-    }*/
-    let close = document.createElement('button');
-    close.setAttribute('type', 'button');
-    close.className += ' mdl-button color-green';
-    close.innerHTML = "Close";
-    close.addEventListener('click', function () {
-        while (dialog.firstChild) {
-            dialog.removeChild(dialog.firstChild);
-        }
-        dialog.close()
-    }, false);
-    let doSom = document.createElement('button');
-    doSom.setAttribute('type', 'button');
-    doSom.className += ' mdl-button color-green';
-    doSom.innerHTML = "Disabled action";
-    let text = document.createElement('div');
-    text.className += ' mdl-textfield mdl-js-textfield';
-    let input = document.createElement('input');
-    input.className += ' mdl-textfield__input';
-    input.setAttribute('type', 'text');
-    input.setAttribute('id', 'inputRename');
-    let label = document.createElement('label');
-    label.className += ' mdl-textfield__label';
-    label.setAttribute('for', 'inputRename');
-    label.innerHTML = 'New Account Name';
-    input.innerHTML = name;
-    text.appendChild(input);
-    text.appendChild(label);
-    let array = [close, doSom];
-    makeDialog("Test", text, array);
-}
-
-
-function deleteAccount(name) {
-    let bool = confirm("Do you want to delete this?");
-    if (bool) {
-        try {
-            storage.deleteAccount(name);
-            let serialize = storage.serialize();
-            ipcRenderer.send('update-storage', serialize);
-            remote.getCurrentWindow().reload();
-        }
-        catch (e) {
-            alert(e.message);
-        }
     }
-}
-
-
-function makeDialog(headerText, bodyObject, listOfButtons) {
-    let dialog = document.getElementById("dialog");
-    let header = document.createElement('h3');
-    header.className += ' mdl-dialog__title';
-    header.innerHTML = headerText;
-    let body = document.createElement('div');
-    body.className += ' mdl-dialog__content';
-    body.appendChild(bodyObject);
-    let actions = document.createElement('div');
-    body.className += ' mdl-dialog__actions';
-
-    for(let i = listOfButtons.length -1 ; i >= 0; i--) {
-        actions.appendChild(listOfButtons[i]);
-    }
-
-    dialog.appendChild(header);
-    dialog.appendChild(body);
-    dialog.appendChild(actions);
-    dialog.showModal();
 }
