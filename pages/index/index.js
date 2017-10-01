@@ -36,7 +36,8 @@ function init() {
         if(storage.existsFileInPath()) {
             showAccounts();
         } else {
-            alert("No File");
+            dialog = document.getElementById("dialog-new-password");
+            dialog.showModal();
         }
     }
 }
@@ -238,5 +239,40 @@ function tryDecrypt() {
             error.parentElement.className += ' is-invalid';
             error.textContent = "Password invalid";
         }
+    }
+}
+
+function savePassword() {
+    let newPasswordFirstEle = document.getElementById('input-password1');
+    let newPasswordSecondEle = document.getElementById('input-password2');
+    let newPasswordFirst = newPasswordFirstEle.value;
+    let newPasswordSecond = newPasswordSecondEle.value;
+    let bool = false;
+    if(newPasswordFirst === "") {
+        let newError = document.getElementById('passwordError1');
+        newError.parentElement.className += ' is-invalid';
+        newError.textContent = "Password must be filled!";
+        bool = true;
+    }
+    if(newPasswordSecond === "") {
+        let newError = document.getElementById('passwordError2');
+        newError.parentElement.className += ' is-invalid';
+        newError.textContent = "Password must be filled!";
+        bool = true;
+    }
+    if(bool) return;
+    if(newPasswordFirst === newPasswordSecond) {
+        storage.setNewKey(newPasswordFirst);
+        let serialize = storage.serialize();
+        ipcRenderer.send('update-storage', serialize);
+        newPasswordFirstEle.value = "";
+        newPasswordSecondEle.value = "";
+        newPasswordSecondEle.parentElement.classList.remove("is-dirty");
+        newPasswordFirstEle.parentElement.classList.remove("is-dirty");
+        dialog.close();
+    } else {
+        let newError = document.getElementById('passwordError2');
+        newError.parentElement.className += ' is-invalid';
+        newError.textContent = "Passwords are not equivalent!";
     }
 }

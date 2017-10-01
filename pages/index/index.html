@@ -98,5 +98,26 @@
     </div>
 </dialog>
 
+<dialog id="dialog-new-password" class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Password?</h4>
+    <div class="mdl-dialog__content">
+        <p>Do you want to encrypt your data? If yes fill the passwords else click 'CLOSE'.</p>
+        <div class="mdl-textfield mdl-js-textfield" id="container-password1">
+            <input class="mdl-textfield__input" type="password" id="input-password1">
+            <label class="mdl-textfield__label" for="input-password1">Password</label>
+            <span class="mdl-textfield__error" id="passwordError1"></span>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield" id="container-password2">
+            <input class="mdl-textfield__input" type="password" id="input-password2">
+            <label class="mdl-textfield__label" for="input-password2">Verify Password</label>
+            <span class="mdl-textfield__error" id="passwordError2"></span>
+        </div>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button mdl-button--colored" onclick="savePassword()">Save</button>
+        <button type="button" class="mdl-button mdl-button--colored" onclick="closeDialog()">Close</button>
+    </div>
+</dialog>
+
 </body>
 </html>
