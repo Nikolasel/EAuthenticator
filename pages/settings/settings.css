@@ -3,6 +3,10 @@ h5 {
     margin-bottom: 0px;
 }
 
+.mdl-layout-title {
+    margin-left: 20px;
+}
+
 #old-password {
     display: none;
 }
@@ -13,16 +17,20 @@ h5 {
     margin-bottom: 0px;
 }
 
-.mdl-button {
-    text-transform: capitalize;
+.up-button {
     top: -20px;
     margin-bottom: 0;
+}
+
+.mdl-button {
+    text-transform: capitalize;
+    margin-left: 20px;
 }
 
 #change-password-button {
     margin-left: 20px;
     display: inline;
-    margin-right: 20px;
+    /*margin-right: 20px;*/
 }
 
 #remove-encryption-button {
@@ -33,4 +41,8 @@ h5 {
     height: 0;
     border: 0;
     display: none;
+}
+
+#time-btn {
+    margin-top: 20px;
 }

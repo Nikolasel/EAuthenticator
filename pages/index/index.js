@@ -30,7 +30,6 @@ function toAdd() {
 function init() {
     if (storage.isDataEncrypted() && storage.getKey() === "") {
         //Set Password
-        //alert("Encrypted");
         dialog = document.getElementById("dialog-decrypt");
         dialog.showModal();
     } else {

@@ -46,15 +46,18 @@
             </div>
 
             <hr class="invisible">
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="change-password-button" onclick="savePassword()">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored up-button" id="change-password-button" onclick="savePassword()">
                 Save
             </button>
-            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="remove-encryption-button" onclick="removeEncryption()">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored up-button" id="remove-encryption-button" onclick="removeEncryption()">
                 Remove encryption
             </button>
 
             <hr>
             <h5>Check clock of your computer</h5>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="time-btn" onclick="checkTime()">
+                Check Time
+            </button>
             <hr>
             <h5>Change language</h5>
 
@@ -64,6 +67,16 @@
 
 <dialog id="dialog-successful" class="mdl-dialog">
     <h4 class="mdl-dialog__title">Successful</h4>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button mdl-button--colored" onclick="closeDialog()" autofocus>Close</button>
+    </div>
+</dialog>
+
+<dialog id="dialog-time" class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Time</h4>
+    <div class="mdl-dialog__content">
+        <p id="text-time"></p>
+    </div>
     <div class="mdl-dialog__actions">
         <button type="button" class="mdl-button mdl-button--colored" onclick="closeDialog()" autofocus>Close</button>
     </div>

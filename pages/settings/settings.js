@@ -96,3 +96,36 @@ function removeEncryption() {
         removeEncBtn.style.display = 'none';
     }
 }
+
+function checkTime() {
+    let Sntp = require('sntp');
+    let options = {
+        host: 'time.google.com',  // Defaults to pool.ntp.org
+        port: 123,                      // Defaults to 123 (NTP)
+        resolveReference: true,         // Default to false (not resolving)
+        timeout: 100                   // Defaults to zero (no timeout)
+    };
+    Sntp.time(options, function (err, time) {
+
+        dialog = document.getElementById("dialog-time");
+        dialog.showModal();
+        let timeMessage = document.getElementById("text-time");
+        if (err) {
+            timeMessage.innerHTML = 'Failed: ' + err.message;
+            return;
+        }
+        if(time.t > 100 ) {
+            let sec = Math.round((time.t / 1000) * 10) / 10;
+            timeMessage.innerHTML = "Your clock is " + sec + " seconds behind";
+            return;
+        }
+        if(time.t < -100) {
+            let sec = Math.round(Math.abs(time.t / 1000) * 10) / 10;
+            timeMessage.innerHTML =  "Your clock is " + sec + " seconds ahead";
+            return;
+        }
+        timeMessage.innerHTML = "Your time ist good enough";
+
+
+    });
+}
