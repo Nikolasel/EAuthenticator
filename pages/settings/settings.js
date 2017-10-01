@@ -3,6 +3,7 @@ let ipcRenderer = require('electron').ipcRenderer;
 let storageOldData = ipcRenderer.sendSync('get-storage');
 let Storage = require('../../lib/storage');
 let storage = new Storage(app, storageOldData, true);
+let Sntp = require('sntp');
 
 let dialog = undefined;
 
@@ -36,6 +37,20 @@ function savePassword() {
     let newPasswordSecondEle = document.getElementById('input-new-second');
     let newPasswordFirst = newPasswordFirstEle.value;
     let newPasswordSecond = newPasswordSecondEle.value;
+    let bool = false;
+    if(newPasswordFirst === "") {
+        let newError = document.getElementById('newFirstPasswordError');
+        newError.parentElement.className += ' is-invalid';
+        newError.textContent = "Password must be filled!";
+        bool = true;
+    }
+    if(newPasswordSecond === "") {
+        let newError = document.getElementById('newSecondPasswordError');
+        newError.parentElement.className += ' is-invalid';
+        newError.textContent = "Password must be filled!";
+        bool = true;
+    }
+    if(bool) return;
     if(newPasswordFirst === newPasswordSecond) {
         storage.setNewKey(newPasswordFirst);
         let serialize = storage.serialize();
@@ -98,7 +113,6 @@ function removeEncryption() {
 }
 
 function checkTime() {
-    let Sntp = require('sntp');
     let options = {
         host: 'time.google.com',  // Defaults to pool.ntp.org
         port: 123,                      // Defaults to 123 (NTP)

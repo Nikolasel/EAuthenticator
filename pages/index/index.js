@@ -33,7 +33,11 @@ function init() {
         dialog = document.getElementById("dialog-decrypt");
         dialog.showModal();
     } else {
-        showAccounts();
+        if(storage.existsFileInPath()) {
+            showAccounts();
+        } else {
+            alert("No File");
+        }
     }
 }
 
