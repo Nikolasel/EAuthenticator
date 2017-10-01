@@ -1,0 +1,20 @@
+h5 {
+    margin-left: 20px;
+    margin-bottom: 0px;
+}
+
+#old-password {
+    display: none;
+}
+
+.mdl-textfield {
+    margin-left: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#change-password-button {
+    text-transform: capitalize;
+    margin-left: 20px;
+    display: block;
+}

@@ -13,7 +13,7 @@
 </head>
 
 
-<body onload="showAccounts()">
+<body onload="init()">
 
 
 
@@ -27,7 +27,7 @@
             <div class = "mdl-layout-spacer"></div>
             <!-- Navigation -->
             <nav class = "mdl-navigation">
-                <a class = "mdl-navigation__link" href = "">Settings</a>
+                <a class = "mdl-navigation__link" href = "../settings/settings.html">Settings</a>
             </nav>
         </div>
     </header>
@@ -83,6 +83,20 @@
     </div>
 </dialog>
 
+<dialog id="dialog-decrypt" class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Decrypt</h4>
+    <div class="mdl-dialog__content">
+        <p>Your data ist encrypted. Tip in the password.</p>
+        <div class="mdl-textfield mdl-js-textfield" id="container-decrypt">
+            <input class="mdl-textfield__input" type="password" id="input-decrypt">
+            <label class="mdl-textfield__label" for="input-decrypt">Password</label>
+            <span class="mdl-textfield__error" id="decryptError"></span>
+        </div>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button mdl-button--colored" onclick="tryDecrypt()">Decrypt</button>
+    </div>
+</dialog>
 
 </body>
 </html>

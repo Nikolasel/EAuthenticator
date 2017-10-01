@@ -24,7 +24,7 @@ function createWindow () {
     }));
 
     // Open the DevTools.
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
 
 
     // Emitted when the window is closed.
@@ -50,6 +50,8 @@ app.on('window-all-closed', () => {
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
         app.quit()
+    } else {
+        storage = undefined;
     }
 });
 
@@ -57,6 +59,7 @@ app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
+        storage = new Storage(app, undefined, false);
         createWindow()
     }
 });

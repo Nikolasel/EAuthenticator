@@ -27,11 +27,20 @@ function toAdd() {
 }
 
 
+function init() {
+    if (storage.isDataEncrypted() && storage.getKey() === "") {
+        //Set Password
+        //alert("Encrypted");
+        dialog = document.getElementById("dialog-decrypt");
+        dialog.showModal();
+    } else {
+        showAccounts();
+    }
+}
+
+
 function showAccounts() {
     let list = document.getElementById("list-of-accounts");
-    if (storage.isDataEncrypted()) {
-        //Set Password
-    }
     let accounts = storage.getAllAccounts();
     let pins = [];
     let times = [];
@@ -201,5 +210,30 @@ function deleteAccount() {
     }
     catch (e) {
         alert(e.message);
+    }
+}
+
+function tryDecrypt() {
+    let input = document.getElementById("input-decrypt");
+    let key = input.value;
+    let error = document.getElementById('decryptError');
+    try {
+        let cryptoPromise = storage.setKey(key);
+        cryptoPromise.then(function (plaintext) {
+            storage.parseData(plaintext.data);
+            let serialize = storage.serialize();
+            ipcRenderer.send('update-storage', serialize);
+            showAccounts();
+            dialog.close();
+        }, function () {
+            error.parentElement.className += ' is-invalid';
+            error.textContent = "Password invalid";
+        })
+    }
+    catch (e) {
+        if (e !== "Invalid data") {
+            error.parentElement.className += ' is-invalid';
+            error.textContent = "Password invalid";
+        }
     }
 }
