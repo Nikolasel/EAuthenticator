@@ -13,8 +13,24 @@ h5 {
     margin-bottom: 0px;
 }
 
-#change-password-button {
+.mdl-button {
     text-transform: capitalize;
+    top: -20px;
+    margin-bottom: 0;
+}
+
+#change-password-button {
     margin-left: 20px;
-    display: block;
+    display: inline;
+    margin-right: 20px;
+}
+
+#remove-encryption-button {
+    display: none;
+}
+
+#invisible {
+    height: 0;
+    border: 0;
+    display: none;
 }

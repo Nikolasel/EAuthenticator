@@ -12,6 +12,8 @@ function init() {
         headerPassword.innerHTML = "Change Password";
         let oldPass = document.getElementById("old-password");
         oldPass.style.display = 'block';
+        let removeEncBtn = document.getElementById("remove-encryption-button");
+        removeEncBtn.style.display = 'inline';
     } else {
         headerPassword.innerHTML = "Add Password";
     }
@@ -19,7 +21,7 @@ function init() {
 
 function savePassword() {
     //Check old password
-    let inputOldPasswordEle = document.getElementById('input-old')
+    let inputOldPasswordEle = document.getElementById('input-old');
     if(storage.isDataEncrypted()) {
         let secretError = document.getElementById('oldPasswordError');
         let inputOldPassword = inputOldPasswordEle.value;
@@ -50,6 +52,8 @@ function savePassword() {
         oldPass.style.display = 'block';
         let headerPassword = document.getElementById("header-password");
         headerPassword.innerHTML = "Change Password";
+        let removeEncBtn = document.getElementById("remove-encryption-button");
+        removeEncBtn.style.display = 'inline';
     } else {
         let newError = document.getElementById('newSecondPasswordError');
         newError.parentElement.className += ' is-invalid';
@@ -60,5 +64,35 @@ function savePassword() {
 function closeDialog() {
     if(dialog !== undefined) {
         dialog.close();
+    }
+}
+
+function removeEncryption() {
+    let newPasswordFirstEle = document.getElementById('input-new-first');
+    let newPasswordSecondEle = document.getElementById('input-new-second');
+    let inputOldPasswordEle = document.getElementById('input-old');
+    let secretError = document.getElementById('oldPasswordError');
+    let inputOldPassword = inputOldPasswordEle.value;
+    if(inputOldPassword !== storage.getKey()) {
+        secretError.parentElement.className += ' is-invalid';
+        secretError.textContent = "To remove encryption you need to type in your password";
+    } else {
+        storage.removeEncryption();
+        let serialize = storage.serialize();
+        ipcRenderer.send('update-storage', serialize);
+        newPasswordFirstEle.value = "";
+        newPasswordSecondEle.value = "";
+        inputOldPasswordEle.value = "";
+        newPasswordSecondEle.parentElement.classList.remove("is-dirty");
+        newPasswordFirstEle.parentElement.classList.remove("is-dirty");
+        inputOldPasswordEle.parentElement.classList.remove("is-dirty");
+        dialog = document.getElementById("dialog-successful");
+        dialog.showModal();
+        let oldPass = document.getElementById("old-password");
+        oldPass.style.display = 'none';
+        let headerPassword = document.getElementById("header-password");
+        headerPassword.innerHTML = "Add Password";
+        let removeEncBtn = document.getElementById("remove-encryption-button");
+        removeEncBtn.style.display = 'none';
     }
 }
