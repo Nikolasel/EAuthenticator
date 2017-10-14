@@ -4,16 +4,24 @@ let storageOldData = ipcRenderer.sendSync('get-storage');
 let Storage = require('../../lib/storage');
 let storage = new Storage(app, storageOldData, true);
 
-
+/**
+ * Changes the top down menu
+ */
 function changeToTimeBased() {
     document.getElementById("menu-lower-left").innerHTML = 'time based <i class="material-icons">keyboard_arrow_down</i>';
 }
 
+/**
+ * Changes the top down menu
+ */
 function changeToCounterBased() {
     document.getElementById("menu-lower-left").innerHTML = 'counter based <i class="material-icons">keyboard_arrow_down</i>';
 
 }
 
+/**
+ * Adds a account to storage
+ */
 function addAccount() {
     let errors = false;
     let account = document.getElementById('name');
@@ -67,7 +75,12 @@ function addAccount() {
     }
 }
 
-
+/**
+ * Checks if string contains only chars from alphabet
+ * @param alphabet
+ * @param string
+ * @returns {boolean}
+ */
 function allCharsInAlphabet(alphabet, string) {
     for(let i = 0; i < string.length; i++) {
         if(!alphabet.includes(string[i])) {

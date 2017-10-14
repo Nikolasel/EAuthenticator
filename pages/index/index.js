@@ -17,7 +17,9 @@ let dialog = undefined;
 let renameOld = "";
 let selectedForDelete = "";
 
-
+/**
+ * Go to add.html
+ */
 function toAdd() {
     win.loadURL(url.format({
         pathname: path.join(__dirname, '../add/add.html'),
@@ -26,7 +28,9 @@ function toAdd() {
     }));
 }
 
-
+/**
+ * Checks if data is encrypted
+ */
 function init() {
     if (storage.isDataEncrypted() && storage.getKey() === "") {
         //Set Password
@@ -42,7 +46,9 @@ function init() {
     }
 }
 
-
+/**
+ * Displays the accounts from storage
+ */
 function showAccounts() {
     let list = document.getElementById("list-of-accounts");
     let accounts = storage.getAllAccounts();
@@ -104,6 +110,12 @@ function showAccounts() {
     }
 }
 
+/**
+ * Updates the current time to next one-time password
+ * @param times dom object for displaying the time
+ * @param accounts
+ * @param pins dom object for displaying the pin
+ */
 function updateAll(times, accounts, pins) {
     let seconds = getSecUntil30();
     if (seconds === 30) {
@@ -114,7 +126,11 @@ function updateAll(times, accounts, pins) {
     }
 }
 
-
+/**
+ * Update the one-time passwords
+ * @param accounts
+ * @param accountsMid dom object for displaying the pin
+ */
 function updatePin(accounts, accountsMid) {
     for (let i = 0; i < accounts.length; i++) {
         let totp = new TOTP(accounts[i].secret);
@@ -122,7 +138,10 @@ function updatePin(accounts, accountsMid) {
     }
 }
 
-
+/**
+ * Returns time until next pin update
+ * @returns {number}
+ */
 function getSecUntil30() {
     let time = new Date();
     if (sync) {
@@ -139,28 +158,51 @@ function getSecUntil30() {
     }
 }
 
+/**
+ * Updates the time chart
+ * @param time
+ * @param object
+ */
 function makeChart(time, object) {
-    let filled = Math.round(time / 30 * 100);
-    let unfilled = 100 - filled;
-    let data = google.visualization.arrayToDataTable([
-        ['Time', 'Percentage'],
-        ['', unfilled],
-        ['', filled]
-    ]);
-    let options = {
-        legend: 'none',
-        pieSliceText: 'none',
-        tooltip: {trigger: 'none'},
-        slices: {
-            0: {color: 'transparent'},
-            1: {color: '#2196f3'}
-        }
-    };
-    let chart = new google.visualization.PieChart(object);
-    chart.draw(data, options);
-    //object.innerHTML = time;
+    if(canAccessGoogleVisualization()) {
+        object.style.height = "50px";
+        object.style.width = "50px";
+        let filled = Math.round(time / 30 * 100);
+        let unfilled = 100 - filled;
+        let data = google.visualization.arrayToDataTable([
+            ['Time', 'Percentage'],
+            ['', unfilled],
+            ['', filled]
+        ]);
+        let options = {
+            legend: 'none',
+            pieSliceText: 'none',
+            tooltip: {trigger: 'none'},
+            slices: {
+                0: {color: 'transparent'},
+                1: {color: '#2196f3'}
+            }
+        };
+        let chart = new google.visualization.PieChart(object);
+        chart.draw(data, options);
+    } else {
+        object.innerHTML = time;
+    }
 }
 
+/**
+ * Checks if time chart is available
+ * @returns {boolean}
+ */
+function canAccessGoogleVisualization()
+{
+    return typeof google === 'object' && typeof google.charts === 'object'
+}
+
+/**
+ * Shows dialog for renaming a account
+ * @param name
+ */
 function showRenameAccount(name) {
     dialog = document.getElementById("dialog-rename");
     let inputContainer = document.getElementById("container-rename");
@@ -171,7 +213,10 @@ function showRenameAccount(name) {
     dialog.showModal();
 }
 
-
+/**
+ * Shows dialog for deleting a account
+ * @param name
+ */
 function showDeleteAccount(name) {
     let header = document.getElementById("delete-header");
     let str = header.innerHTML;
@@ -182,13 +227,18 @@ function showDeleteAccount(name) {
     dialog.showModal();
 }
 
-
+/**
+ * Close current dialog
+ */
 function closeDialog() {
     if(dialog !== undefined) {
         dialog.close();
     }
 }
 
+/**
+ * Saves the renaming to storage
+ */
 function saveRename() {
     let newName = document.getElementById("input-rename").value;
     try {
@@ -205,6 +255,9 @@ function saveRename() {
     }
 }
 
+/**
+ * Saves the deleting to storage
+ */
 function deleteAccount() {
     try {
         storage.deleteAccount(selectedForDelete);
@@ -217,6 +270,9 @@ function deleteAccount() {
     }
 }
 
+/**
+ * Tries to decrypt with the current password
+ */
 function tryDecrypt() {
     let input = document.getElementById("input-decrypt");
     let key = input.value;
@@ -242,6 +298,9 @@ function tryDecrypt() {
     }
 }
 
+/**
+ * Saves the password to the storage
+ */
 function savePassword() {
     let newPasswordFirstEle = document.getElementById('input-password1');
     let newPasswordSecondEle = document.getElementById('input-password2');

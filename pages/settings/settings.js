@@ -7,6 +7,9 @@ let Sntp = require('sntp');
 
 let dialog = undefined;
 
+/**
+ * Checks if data is encrypted and makes structure depending on it
+ */
 function init() {
     let headerPassword = document.getElementById("header-password");
     if(storage.isDataEncrypted()) {
@@ -20,6 +23,9 @@ function init() {
     }
 }
 
+/**
+ * Saves a new password
+ */
 function savePassword() {
     //Check old password
     let inputOldPasswordEle = document.getElementById('input-old');
@@ -76,12 +82,18 @@ function savePassword() {
     }
 }
 
+/**
+ * Close the current dialog
+ */
 function closeDialog() {
     if(dialog !== undefined) {
         dialog.close();
     }
 }
 
+/**
+ * Removes the encryption of accounts
+ */
 function removeEncryption() {
     let newPasswordFirstEle = document.getElementById('input-new-first');
     let newPasswordSecondEle = document.getElementById('input-new-second');
@@ -112,6 +124,9 @@ function removeEncryption() {
     }
 }
 
+/**
+ * Use ntp to check the current time of the pc
+ */
 function checkTime() {
     let options = {
         host: 'time.google.com',  // Defaults to pool.ntp.org
@@ -125,7 +140,7 @@ function checkTime() {
         dialog.showModal();
         let timeMessage = document.getElementById("text-time");
         if (err) {
-            timeMessage.innerHTML = 'Failed: ' + err.message;
+            timeMessage.innerHTML = 'Failed: ' + "Cannot connect to time server";
             return;
         }
         if(time.t > 100 ) {
