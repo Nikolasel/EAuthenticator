@@ -1,5 +1,6 @@
 {
   "name": "EAuthenticator",
+  "productname": "EAuthenticator",
   "version": "0.0.1",
   "description": "An Electron Desktop app compatible with Google Authenticator",
   "main": "main.js",
@@ -11,6 +12,7 @@
     "material-design-icons": "^3.0.1"
   },
   "devDependencies": {
+    "electron-packager": "^9.1.0",
     "mocha": "^3.5.0",
     "text-encoding": "^0.6.4"
   },
@@ -20,6 +22,9 @@
   },
   "license": "GPL-3.0",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
+    "package-win": "electron-packager . EAuthenticator --overwrite --asar=true --platform=win32 --arch=ia32 --icon=img/icon300x300.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"EAuthenticator\"",
+    "package-linux": "electron-packager . Eauthenticator --overwrite --asar=true --platform=linux --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds"
   }
 }

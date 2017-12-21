@@ -11,7 +11,7 @@ let win;
 
 function createWindow () {
     // Create the browser window.
-    win = new BrowserWindow({width: 800, height: 600, minHeight: 300, minWidth: 300});
+    win = new BrowserWindow({width: 800, height: 600, minHeight: 300, minWidth: 300, icon: path.join(__dirname, 'img/icon64x64.png')});
 
     // Remove menu
     win.setMenu(null);

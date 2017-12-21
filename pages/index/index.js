@@ -11,8 +11,6 @@ let storage = new Storage(app, storageOldData, true);
 let TOTP = require('../../lib/totp');
 google.charts.load('current', {'packages': ['corechart']});
 
-let sync = true;
-
 let dialog = undefined;
 let renameOld = "";
 let selectedForDelete = "";
@@ -104,9 +102,12 @@ function showAccounts() {
         }
         updatePin(accounts, pins);
         //updateAll(times, accounts, pins);
-        window.setInterval(function () {
-            updateAll(times, accounts, pins);
-        }, 1000)
+        window.setTimeout(function () {
+            window.setInterval(function () {
+                updateAll(times, accounts, pins);
+            }, 1000)
+        }, getMSUntilFullSecond());
+
     }
 }
 
@@ -138,18 +139,18 @@ function updatePin(accounts, accountsMid) {
     }
 }
 
+function getMSUntilFullSecond() {
+    let time = new Date();
+    return 1000 - time.getMilliseconds()
+}
+
+
 /**
  * Returns time until next pin update
  * @returns {number}
  */
 function getSecUntil30() {
     let time = new Date();
-    if (sync) {
-        while (time.getMilliseconds() > 100) {
-            time = new Date();
-        }
-        sync = false;
-    }
     let seconds = time.getSeconds();
     if (seconds >= 30) {
         return (60 - seconds);
