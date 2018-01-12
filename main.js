@@ -4,12 +4,16 @@ const url = require('url');
 let ipcMain = require('electron').ipcMain;
 let Storage = require('./lib/storage');
 let storage;
+let idleTime = 0;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 function createWindow () {
+    //set idleTime
+    idleTime = 0;
+
     // Create the browser window.
     win = new BrowserWindow({width: 800, height: 600, minHeight: 300, minWidth: 300, icon: path.join(__dirname, 'img/icon64x64.png')});
 
@@ -26,6 +30,10 @@ function createWindow () {
     // Open the DevTools.
     //win.webContents.openDevTools();
 
+    //keypress or mousemove event
+    win.on('bla', () => {
+        idleTime = 0;
+    });
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -40,6 +48,8 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
+    //Increment the idle time counter every minute.
+    setInterval(timerIncrement, 60000); // 1 minute
     storage = new Storage(app, undefined, false);
     createWindow();
 });
@@ -64,19 +74,35 @@ app.on('activate', () => {
     }
 });
 
-//TODO: Log out after 5 min
-//storage = undefined;
-//win = null;
-//storage = new Storage(app, undefined, false);
-//createWindow();
-//clipboard.clear();
-//new Notification({title: "EAuthenticator", body: "Logged out"});
+//app idle checking
 
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    if (idleTime === 2) {
+        clearClipboard();
+    }
+    if (idleTime === 5) {
+        logout();
+    }
+}
+
+
+
+//TODO: Log out after 5 min
+function logout() {
+    storage = undefined;
+    win = null;
+    storage = new Storage(app, undefined, false);
+    createWindow();
+    clipboard.clear();
+    new Notification({title: "EAuthenticator", body: "Logged out"});
+}
 
 //TODO: Clear clipboard after 2 min
-//clipboard.clear();
-//new Notification({title: "EAuthenticator", body: "Clipboard cleared"});
-
+function clearClipboard() {
+    clipboard.clear();
+    new Notification({title: "EAuthenticator", body: "Clipboard cleared"});
+}
 
 
 //ipcMain listener
