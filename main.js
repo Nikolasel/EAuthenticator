@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, clipboard} = require('electron');
 const path = require('path');
 const url = require('url');
 let ipcMain = require('electron').ipcMain;
@@ -64,8 +64,18 @@ app.on('activate', () => {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+//TODO: Log out after 5 min
+//storage = undefined;
+//win = null;
+//storage = new Storage(app, undefined, false);
+//createWindow();
+//clipboard.clear();
+//new Notification({title: "EAuthenticator", body: "Logged out"});
+
+
+//TODO: Clear clipboard after 2 min
+//clipboard.clear();
+//new Notification({title: "EAuthenticator", body: "Clipboard cleared"});
 
 
 
