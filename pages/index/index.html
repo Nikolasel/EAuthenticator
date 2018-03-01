@@ -14,28 +14,44 @@
 <body onload="init()">
 
 
-
 <!-- Always shows a header, even in smaller screens. -->
-<div class = "mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-js-ripple-effect">
-    <header class = "mdl-layout__header">
-        <div class = "mdl-layout__header-row">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-js-ripple-effect">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class = "mdl-layout-title">EAuthenticator</span>
+            <span class="mdl-layout-title">EAuthenticator</span>
             <!-- Add spacer, to align navigation to the right -->
-            <div class = "mdl-layout-spacer"></div>
+            <div class="mdl-layout-spacer"></div>
             <!-- Navigation -->
-            <nav class = "mdl-navigation">
-                <a class = "mdl-navigation__link" href = "../settings/settings.html">Settings</a>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="../settings/settings.html">
+                    <div id="set" class="icon material-icons">settings</div>
+                    <div class="mdl-tooltip" data-mdl-for="set">
+                        Settings
+                    </div>
+                </a>
+                <a class="mdl-navigation__link" href="../settings/settings.html">
+                    <div id="abo" class="icon material-icons">info</div>
+                    <div class="mdl-tooltip" data-mdl-for="abo">
+                        About EAuthenticator
+                    </div>
+                </a>
+                <!--TODO-->
+                <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <div id="lock" class="icon material-icons">lock_outline</div>
+                    <div class="mdl-tooltip" data-mdl-for="lock">
+                        Lock app
+                    </div>
+                </button>
             </nav>
         </div>
     </header>
 
 
+    <main class="mdl-layout__content">
+        <div class="page-content">
 
-    <main class = "mdl-layout__content">
-        <div class = "page-content">
-
-          <ul class="demo-list-item mdl-list" id="list-of-accounts">
+            <ul class="demo-list-item mdl-list" id="list-of-accounts">
             </ul>
 
 
@@ -46,7 +62,8 @@
 
 <!-- Add Button -->
 <div class="mdl-button-right-bottom">
-    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-button--raised mdl-js-ripple-effect" onclick="toAdd();">
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-button--raised mdl-js-ripple-effect"
+            onclick="toAdd();">
         <i class="material-icons">add</i>
     </button>
 </div>
@@ -69,7 +86,8 @@
 </dialog>
 
 <dialog id="dialog-delete" class="mdl-dialog">
-    <h4 class="mdl-dialog__title" id="delete-header"><i class="material-icons mdl-color-text--blue-grey-400">warning</i> ... remove?</h4>
+    <h4 class="mdl-dialog__title" id="delete-header"><i class="material-icons mdl-color-text--blue-grey-400">warning</i>
+        ... remove?</h4>
     <div class="mdl-dialog__content">
         <p>Are you sure you want to delete this?</p>
         <p>You can't get it back.</p>

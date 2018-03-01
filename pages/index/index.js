@@ -3,6 +3,7 @@ let Storage = require('../../lib/storage');
 const path = require('path');
 const url = require('url');
 const remote = require('electron').remote;
+const clipboard = require('electron').clipboard;
 let app = undefined;
 if (remote !== undefined) app = remote.app;
 let ipcRenderer = require('electron').ipcRenderer;
@@ -77,6 +78,17 @@ function showAccounts() {
             let spanEnd = document.createElement('span');
             spanEnd.className += " mdl-list__item-secondary-action";
             //TODO Add tooltips <div class="mdl-tooltip" data-mdl-for="tt1"> Follow </div>
+            let btnCopy = document.createElement('button');
+            btnCopy.className += " mdl-button mdl-js-button mdl-button--icon";
+            btnCopy.innerHTML = "<div id='copyBtn" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>content_copy</div>" +
+                                "<div class='mdl-tooltip' data-mdl-for='copyBtn" + i + "'>Copy password</div>";
+            //btnCopy.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">content_copy</i>";
+            btnCopy.addEventListener("click", function() {
+                clipboard.writeText(spanPin.innerText.replace(" ", ""));
+                new Notification('EAuthenticator', {
+                    body: 'Copied password to clipboard!'
+                })
+            }, false);
             let btnRename = document.createElement('button');
             btnRename.className += " mdl-button mdl-js-button mdl-button--icon";
             btnRename.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">create</i>";
@@ -89,6 +101,7 @@ function showAccounts() {
             btnDelete.addEventListener("click", function() {
                 showDeleteAccount(name);
             }, false);
+            spanEnd.appendChild(btnCopy);
             spanEnd.appendChild(btnRename);
             spanEnd.appendChild(btnDelete);
 

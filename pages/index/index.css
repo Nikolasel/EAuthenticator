@@ -22,6 +22,11 @@
     min-height: 100px;
 }
 
+.mdl-navigation__link {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
 body {
     background: #E8E8EE;
 }
