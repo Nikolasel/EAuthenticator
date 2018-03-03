@@ -10,7 +10,7 @@ let ipcRenderer = require('electron').ipcRenderer;
 let storageOldData = ipcRenderer.sendSync('get-storage');
 let storage = new Storage(app, storageOldData, true);
 let TOTP = require('../../lib/totp');
-google.charts.load('current', {'packages': ['corechart']});
+const openAboutWindow = require('about-window').default;
 
 let dialog = undefined;
 let renameOld = "";
@@ -22,6 +22,17 @@ let selectedForDelete = "";
 function toAdd() {
     win.loadURL(url.format({
         pathname: path.join(__dirname, '../add/add.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
+/**
+ * Go to settings.html
+ */
+function openSettings() {
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, '../settings/settings.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -77,12 +88,10 @@ function showAccounts() {
 
             let spanEnd = document.createElement('span');
             spanEnd.className += " mdl-list__item-secondary-action";
-            //TODO Add tooltips <div class="mdl-tooltip" data-mdl-for="tt1"> Follow </div>
             let btnCopy = document.createElement('button');
             btnCopy.className += " mdl-button mdl-js-button mdl-button--icon";
-            btnCopy.innerHTML = "<div id='copyBtn" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>content_copy</div>" +
-                                "<div class='mdl-tooltip' data-mdl-for='copyBtn" + i + "'>Copy password</div>";
-            //btnCopy.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">content_copy</i>";
+            btnCopy.innerHTML = "<div id='copyButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>content_copy</div>" +
+                                "<div class='mdl-tooltip capa' data-mdl-for='copyButton" + i + "'>Copy password</div>";
             btnCopy.addEventListener("click", function() {
                 clipboard.writeText(spanPin.innerText.replace(" ", ""));
                 new Notification('EAuthenticator', {
@@ -91,13 +100,15 @@ function showAccounts() {
             }, false);
             let btnRename = document.createElement('button');
             btnRename.className += " mdl-button mdl-js-button mdl-button--icon";
-            btnRename.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">create</i>";
+            btnRename.innerHTML = "<div id='renameButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>create</div>" +
+                "<div class='mdl-tooltip capa' data-mdl-for='renameButton" + i + "'>Rename account</div>";
             btnRename.addEventListener("click", function() {
                 showRenameAccount(name);
             }, false);
             let btnDelete = document.createElement('button');
             btnDelete.className += " mdl-button mdl-js-button mdl-button--icon";
-            btnDelete.innerHTML = "<i class=\"material-icons mdl-color-text--blue-grey-400\">delete</i>";
+            btnDelete.innerHTML = "<div id='deleteButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>delete</div>" +
+                "<div class='mdl-tooltip capa' data-mdl-for='deleteButton" + i + "'>Delete account</div>";
             btnDelete.addEventListener("click", function() {
                 showDeleteAccount(name);
             }, false);
@@ -113,6 +124,7 @@ function showAccounts() {
             pins.push(spanPin);
             times.push(spanTimer);
         }
+        componentHandler.upgradeDom();
         updatePin(accounts, pins);
         //updateAll(times, accounts, pins);
         window.setTimeout(function () {
@@ -178,39 +190,42 @@ function getSecUntil30() {
  * @param object
  */
 function makeChart(time, object) {
-    if(canAccessGoogleVisualization()) {
-        object.style.height = "50px";
-        object.style.width = "50px";
-        let filled = Math.round(time / 30 * 100);
-        let unfilled = 100 - filled;
-        let data = google.visualization.arrayToDataTable([
-            ['Time', 'Percentage'],
-            ['', unfilled],
-            ['', filled]
-        ]);
-        let options = {
-            legend: 'none',
-            pieSliceText: 'none',
-            tooltip: {trigger: 'none'},
-            slices: {
-                0: {color: 'transparent'},
-                1: {color: '#2196f3'}
-            }
-        };
-        let chart = new google.visualization.PieChart(object);
-        chart.draw(data, options);
-    } else {
-        object.innerHTML = time;
-    }
-}
+    //Chart.js
+    let canvas = document.createElement('canvas');
+    canvas.height = 50;
+    canvas.width = 50;
+    canvas.id = "chart";
+    let filled = Math.round(time / 30 * 100);
+    let unfilled = 100 - filled;
+    let config = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [
+                    unfilled,
+                    filled
+                ],
+                backgroundColor: [
+                    'transparent',
+                    '#2196f3',
+                ],
+                label: ''
+            }],
+            labels: [
+            ]
+        },
+        options: {
+            responsive: false,
+            animation: false,
+            tooltips: {enabled: false},
+            hover: {mode: null},
+        }
+    };
 
-/**
- * Checks if time chart is available
- * @returns {boolean}
- */
-function canAccessGoogleVisualization()
-{
-    return typeof google === 'object' && typeof google.charts === 'object'
+    let ctx = canvas.getContext("2d");
+    new Chart(ctx, config);
+    object.innerHTML = '';
+    object.appendChild(canvas);
 }
 
 /**
@@ -348,4 +363,17 @@ function savePassword() {
         newError.parentElement.className += ' is-invalid';
         newError.textContent = "Passwords are not equivalent!";
     }
+}
+
+/**
+ * Open about window
+ */
+function openAbout() {
+    openAboutWindow({
+        icon_path: '../../img/icon300x300.png',
+        copyright: 'Copyright(c) 2018 Nikolasel',
+        homepage: 'https://github.com/Nikolasel/EAuthenticator',
+        description: 'An Electron Desktop app compatible with Google Authenticator',
+        license: 'GPL-3.0',
+    });
 }

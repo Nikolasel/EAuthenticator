@@ -36,6 +36,10 @@ hr {
     border: 0;
 }
 
+.capa {
+    text-transform: capitalize;
+}
+
 .list-pin {
     position: absolute;
     left: 40%;

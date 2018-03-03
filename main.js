@@ -28,7 +28,7 @@ function createWindow () {
     }));
 
     // Open the DevTools.
-    //win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     //keypress or mousemove event
     win.on('bla', () => {

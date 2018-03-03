@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="../../node_modules/material-design-lite/material.min.css">
     <script src="../../node_modules/material-design-lite/material.min.js"></script>
     <link rel="stylesheet" href="../../node_modules/material-design-lite/dist/material.blue-red.min.css">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="../../node_modules/chart.js/dist/Chart.min.js"></script>
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
 </head>
@@ -24,22 +24,21 @@
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation -->
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="../settings/settings.html">
+                <button class="mdl-button mdl-js-button mdl-button--icon" onclick="openSettings()">
                     <div id="set" class="icon material-icons">settings</div>
-                    <div class="mdl-tooltip" data-mdl-for="set">
+                    <div class="mdl-tooltip capa" data-mdl-for="set">
                         Settings
                     </div>
-                </a>
-                <a class="mdl-navigation__link" href="../settings/settings.html">
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--icon" onclick="openAbout()">
                     <div id="abo" class="icon material-icons">info</div>
-                    <div class="mdl-tooltip" data-mdl-for="abo">
+                    <div class="mdl-tooltip capa" data-mdl-for="abo">
                         About EAuthenticator
                     </div>
-                </a>
-                <!--TODO-->
+                </button>
                 <button class="mdl-button mdl-js-button mdl-button--icon">
                     <div id="lock" class="icon material-icons">lock_outline</div>
-                    <div class="mdl-tooltip" data-mdl-for="lock">
+                    <div class="mdl-tooltip capa" data-mdl-for="lock">
                         Lock app
                     </div>
                 </button>
