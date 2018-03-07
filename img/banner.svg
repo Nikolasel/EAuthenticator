@@ -9,14 +9,14 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="179.91667mm"
-   height="179.91667mm"
-   viewBox="0 0 179.91667 179.91667"
+   width="1018.2596mm"
+   height="183.62175mm"
+   viewBox="0 0 1018.2596 183.62174"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="icon.svg"
-   inkscape:export-filename="/home/nicki/Projects/WebstormProjects/EAuthenticator/img/icon-300x300.png"
+   sodipodi:docname="banner.svg"
+   inkscape:export-filename="/home/nicki/Projects/WebstormProjects/EAuthenticator/img/banner.png"
    inkscape:export-xdpi="42.175735"
    inkscape:export-ydpi="42.175735">
   <defs
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.84172762"
-     inkscape:cx="288.65723"
-     inkscape:cy="400.42424"
+     inkscape:zoom="0.21043191"
+     inkscape:cx="1655.1087"
+     inkscape:cy="270.14946"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -58,7 +58,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-14.967857,-44.209522)">
+     transform="translate(-14.363095,-43.755951)">
     <rect
        id="rect12"
        width="180.67261"
@@ -364,5 +364,18 @@
        sodipodi:start="0"
        sodipodi:end="6.2820745"
        d="m 97.743103,130.40315 a 2.5,2.5 0 0 1 -2.499306,2.5 2.5,2.5 0 0 1 -2.500694,-2.49861 2.5,2.5 0 0 1 2.497917,-2.50139 2.5,2.5 0 0 1 2.502081,2.49723 l -2.499998,0.003 z" />
-  </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot858"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, ';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       transform="matrix(2.5269256,0,0,6.2661033,975.5744,-2787.376)"><flowRegion
+         id="flowRegion860"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, '"><rect
+           id="rect862"
+           width="1050.2209"
+           height="434.82001"
+           x="-308.88852"
+           y="444.76953"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Arial Black';-inkscape-font-specification:'Arial Black, '" /></flowRegion><flowPara
+         id="flowPara864">EAuthenticator</flowPara></flowRoot>  </g>
 </svg>
