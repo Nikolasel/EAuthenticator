@@ -4,6 +4,9 @@ let storageOldData = ipcRenderer.sendSync('get-storage');
 let Storage = require('../../lib/storage');
 let storage = new Storage(app, storageOldData, true);
 let Sntp = require('sntp');
+let win = require('electron').remote.getCurrentWindow();
+const path = require('path');
+const url = require('url');
 
 let dialog = undefined;
 
@@ -157,4 +160,12 @@ function checkTime() {
 
 
     });
+}
+
+function openLicenses() {
+    win.loadURL(url.format({
+        pathname: path.join(__dirname, '../license/license.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
 }
