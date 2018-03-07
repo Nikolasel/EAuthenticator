@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "description": "An Electron Desktop app compatible with Google Authenticator",
   "main": "main.js",
+  "author": "Nikolasel",
   "dependencies": {
     "about-window": "^1.10.0",
     "chart.js": "^2.7.2",
