@@ -6,6 +6,7 @@ This is an open source two-factor authentication software which encrypts your da
 
 ## Security Information
 
+The basic idea of two-factor authentication is the use of different devices for your password and TOTP pin. Using this software on the same device as your login reduces the security level. Nevertheless, the use of this software on the same device is safer than completely waiving no two-factor authentication.
 
 ## How to USE
 
@@ -16,5 +17,7 @@ This is an open source two-factor authentication software which encrypts your da
 ## Storage design
 
 ## License
+
+This software is licensed under GPL-3.0.
 
 ## Contributing
