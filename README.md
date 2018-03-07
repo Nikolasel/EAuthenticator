@@ -17,7 +17,7 @@ First start to generate the licenses.json file. This is necessary to show the li
 
     npm run license
 
-To try the software run following
+To try the software run following command
 
     npm start
 
