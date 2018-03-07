@@ -13,6 +13,14 @@ The basic idea of two-factor authentication is the use of different devices for 
 
 ## How to BUILD
 
+First start to generate the licenses.json file. This is necessary to show the licenses in the application
+
+    npm run license
+
+To try the software run following
+
+    npm start
+
 
 ## Storage design
 
