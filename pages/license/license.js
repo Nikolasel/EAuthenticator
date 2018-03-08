@@ -1,5 +1,8 @@
 let open = require("open");
 
+/**
+ * Run after load
+ */
 function init() {
     let json = require('../../licenses');
     let root = document.getElementById("content");
@@ -11,7 +14,12 @@ function init() {
     }
 }
 
-
+/**
+ * Generate license view from elements
+ * @param name of library
+ * @param ele information of the library
+ * @returns {HTMLDivElement}
+ */
 function addLicense(name, ele) {
     let div = document.createElement('div');
     let title = document.createElement('h5');
@@ -42,6 +50,10 @@ function addLicense(name, ele) {
     return div;
 }
 
+/**
+ * Open the url in the default browser
+ * @param url
+ */
 function openUrl(url) {
     open(url);
 }

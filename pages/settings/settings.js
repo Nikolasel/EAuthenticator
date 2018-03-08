@@ -162,6 +162,9 @@ function checkTime() {
     });
 }
 
+/**
+ * Open license.html
+ */
 function openLicenses() {
     win.loadURL(url.format({
         pathname: path.join(__dirname, '../license/license.html'),
