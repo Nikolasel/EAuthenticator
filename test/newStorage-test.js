@@ -1,9 +1,11 @@
 let assert = require('assert');
 let fs = require('fs');
+let TOTP = require('../lib/totp');
 let StorageEngine = require('../lib/newStorage');
 let ChaCha20 = require('js-chacha20/src/jschacha20');
 let textEncoding = require('text-encoding');
 let TextDecoder = textEncoding.TextDecoder;
+let storage;
 let storage1;
 let storage2;
 
@@ -78,6 +80,59 @@ describe('Storage Test', function () {
     });
 });
 
+
+describe('Storage Test: Account functions', function () {
+    before(function () {
+        storage = new StorageEngine("Files/eauth.data.gpg");
+        setTimeout(function(){
+        }, 1000);
+
+    });
+
+
+    it('Check Storage: get All Accounts', function () {
+        let result = storage.getAllAccounts();
+        let totpPin = new TOTP("blala").getPinAsString();
+        assert.equal(result.length, 1);
+        assert.equal(result[0].name, 'test');
+        assert.equal(result[0].pin, totpPin);
+    });
+
+
+    it('Check Storage: rename account', function () {
+        storage.renameAccount('test', 'newTest');
+        let result = storage.getAllAccounts();
+        assert.equal(result.length, 1);
+        assert.equal(result[0].name, 'newTest');
+    });
+    
+    it('Check Storage: delete account valid', function () {
+        storage.deleteAccount('newTest');
+        let result = storage.getAllAccounts();
+        assert.equal(result.length, 0);
+    });
+
+    it('Check Storage: add account valid', function () {
+        let account = {name: "test", secret: "blala"};
+        storage.addAccount(account);
+        let result = storage.getAllAccounts();
+        assert.equal(result.length, 1);
+    });
+
+    it('Check Storage: add account invalid', function () {
+        let account = {name: "test", secret: "blala"};
+        assert.throws(function () {
+            storage.addAccount(account);
+        }, Error, "Account already exists");
+
+    });
+
+    it('Check Storage: delete account invalid', function () {
+        assert.throws(function () {
+            storage.deleteAccount('newTest');
+        }, Error, "Not possible to delete");
+    });
+});
 
 function unlockStorage(storage, password) {
     storage.unlockFile(password, false);
