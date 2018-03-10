@@ -8,9 +8,16 @@ let storage;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let storageWindow;
 
 function createWindow () {
-    //set idleTime
+    storageWindow = new BrowserWindow({ show: false });
+    storageWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'pages/storageProcess/storageProcess.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+    storageWindow.webContents.openDevTools();
 
     // Create the browser window.
     win = new BrowserWindow({width: 800, height: 600, minHeight: 300, minWidth: 450, icon: path.join(__dirname, 'img/icon64x64.png')});

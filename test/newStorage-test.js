@@ -105,7 +105,7 @@ describe('Storage Test: Account functions', function () {
         assert.equal(result.length, 1);
         assert.equal(result[0].name, 'newTest');
     });
-    
+
     it('Check Storage: delete account valid', function () {
         storage.deleteAccount('newTest');
         let result = storage.getAllAccounts();
