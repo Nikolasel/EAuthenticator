@@ -1,5 +1,4 @@
 let assert = require('assert');
-let fs = require('fs');
 let TOTP = require('../lib/totp');
 let StorageEngine = require('../lib/newStorage');
 let ChaCha20 = require('js-chacha20/src/jschacha20');
