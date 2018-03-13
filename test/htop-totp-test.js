@@ -35,7 +35,5 @@ describe('TOTP Test', function(){
        let sec = 'GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ';
        let h = new TOTP(sec);
        assert.equal(h.getPinWithTime(new Date(1970, 1, 1, 0, 0, 59)), 110493);
-       let totp = new TOTP(secret);
-       console.log(totp.getPinAsString())
     });
 });

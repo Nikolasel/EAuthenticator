@@ -29,6 +29,7 @@
   },
   "license": "GPL-3.0",
   "scripts": {
+    "test": "mocha",
     "start": "electron .",
     "license": "npm-license-crawler --json licenses.json",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
