@@ -184,6 +184,10 @@ function updatePin(accounts, accountsMid) {
     }
 }
 
+/**
+ * Returns ms until complete second
+ * @return {number}
+ */
 function getMSUntilFullSecond() {
     let time = new Date();
     return 1000 - time.getMilliseconds()

@@ -2,7 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
 const {ipcMain} = require('electron');
-const {dialog} = require('electron')
+const {dialog} = require('electron');
 
 //Storage
 let StorageEngine = require('./lib/storage');
@@ -55,7 +55,7 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function () {
-    init();
+    storageInit();
     createWindow();
 });
 
@@ -74,7 +74,7 @@ app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
-        init();
+        storageInit();
         createWindow()
     }
 });
@@ -85,7 +85,7 @@ app.on('activate', () => {
  *******************************************************/
 
 
-function init() {
+function storageInit() {
     storage = new StorageEngine(app.getPath("userData") + '/eauth.data');
 }
 
