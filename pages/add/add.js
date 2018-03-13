@@ -1,8 +1,4 @@
-let app = require('electron').remote.app;
 let ipcRenderer = require('electron').ipcRenderer;
-let storageOldData = ipcRenderer.sendSync('get-storage');
-let Storage = require('../../lib/storage');
-let storage = new Storage(app, storageOldData, true);
 
 /**
  * Changes the top down menu
@@ -33,9 +29,9 @@ function addAccount() {
         if(accountValue === "") {
             throw new Error ("Name can't be empty");
         }
-        if(storage.isNameDuplicate(accountValue)) {
+        /*if(storage.isNameDuplicate(accountValue)) {
             throw new Error ("Name already exists");
-        }
+        }*/
     }
     catch (e) {
         let secretError = document.getElementById('accountError');
@@ -64,13 +60,15 @@ function addAccount() {
     }
     if(!errors){
         try{
-            storage.addAccount({name: accountValue, secret:secretValue});
-            let serialize = storage.serialize();
-            ipcRenderer.send('update-storage', serialize);
+
+            let result = ipcRenderer.sendSync("addAccount", {account:{name: accountValue, secret:secretValue}});
+            checkIPCMessage(result);
             history.go(-1);
         }
         catch (e) {
-            alert(e.message);
+            let secretError = document.getElementById('accountError');
+            secretError.parentElement.className += ' is-invalid';
+            secretError.textContent = e.message;
         }
     }
 }
@@ -88,4 +86,15 @@ function allCharsInAlphabet(alphabet, string) {
         }
     }
     return true;
+}
+
+/**
+ * Check the ipc message
+ * @param message result message
+ * @throws error, if message contains one
+ */
+function checkIPCMessage(message) {
+    if(message.status !== 200) {
+        throw Error(message.error);
+    }
 }

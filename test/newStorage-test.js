@@ -7,12 +7,14 @@ let TextDecoder = textEncoding.TextDecoder;
 let storage;
 let storage1;
 let storage2;
+let storage3;
 
 
 
 describe('Storage Test', function () {
     before(function () {
         storage1 = new StorageEngine("Files/eauth.data.falsepassword.gpg"); //password '1234'
+        storage3 = new StorageEngine("Files/eauth.data.falsepassword.gpg"); //password '1234'
         storage2 = new StorageEngine("Files/eauth.data.gpg");
         setTimeout(function(){
 
@@ -36,7 +38,7 @@ describe('Storage Test', function () {
         }, Error, "Error during parsing. This message / key probably does not conform to a valid OpenPGP format.");
     });
     it('Check Storage: valid file not default password', function () {
-        assert.equal(storage1.needPassword(), true);
+        assert.equal(storage3.needPassword(), true);
     });
     it('Check Storage: valid file default password', function () {
         assert.equal(storage2.needPassword(), false);

@@ -1,21 +1,19 @@
-let app = require('electron').remote.app;
 let ipcRenderer = require('electron').ipcRenderer;
-let storageOldData = ipcRenderer.sendSync('get-storage');
-let Storage = require('../../lib/storage');
-let storage = new Storage(app, storageOldData, true);
 let Sntp = require('sntp');
 let win = require('electron').remote.getCurrentWindow();
 const path = require('path');
 const url = require('url');
 
 let dialog = undefined;
+let useDefaultPassword;
 
 /**
  * Checks if data is encrypted and makes structure depending on it
  */
 function init() {
     let headerPassword = document.getElementById("header-password");
-    if(storage.isDataEncrypted()) {
+    useDefaultPassword = ipcRenderer.sendSync('useDefaultPassword');
+    if(!useDefaultPassword) {
         headerPassword.innerHTML = "Change Password";
         let oldPass = document.getElementById("old-password");
         oldPass.style.display = 'block';
@@ -30,17 +28,6 @@ function init() {
  * Saves a new password
  */
 function savePassword() {
-    //Check old password
-    let inputOldPasswordEle = document.getElementById('input-old');
-    if(storage.isDataEncrypted()) {
-        let secretError = document.getElementById('oldPasswordError');
-        let inputOldPassword = inputOldPasswordEle.value;
-        if(inputOldPassword !== storage.getKey()) {
-            secretError.parentElement.className += ' is-invalid';
-            secretError.textContent = "Password invalid!";
-            return;
-        }
-    }
     //Check new passwords are equivalent
     let newPasswordFirstEle = document.getElementById('input-new-first');
     let newPasswordSecondEle = document.getElementById('input-new-second');
@@ -61,23 +48,38 @@ function savePassword() {
     }
     if(bool) return;
     if(newPasswordFirst === newPasswordSecond) {
-        storage.setNewKey(newPasswordFirst);
-        let serialize = storage.serialize();
-        ipcRenderer.send('update-storage', serialize);
-        newPasswordFirstEle.value = "";
-        newPasswordSecondEle.value = "";
-        inputOldPasswordEle.value = "";
-        newPasswordSecondEle.parentElement.classList.remove("is-dirty");
-        newPasswordFirstEle.parentElement.classList.remove("is-dirty");
-        inputOldPasswordEle.parentElement.classList.remove("is-dirty");
-        dialog = document.getElementById("dialog-successful");
-        dialog.showModal();
-        let oldPass = document.getElementById("old-password");
-        oldPass.style.display = 'block';
-        let headerPassword = document.getElementById("header-password");
-        headerPassword.innerHTML = "Change Password";
-        let removeEncBtn = document.getElementById("remove-encryption-button");
-        removeEncBtn.style.display = 'inline';
+        try {
+            //old password
+            let oldPassword;
+            let inputOldPasswordEle = document.getElementById('input-old');
+            if (useDefaultPassword) {
+                oldPassword = 'defaultPassword';
+            } else {
+                oldPassword = inputOldPasswordEle.value;
+            }
+            let result = ipcRenderer.sendSync('changePassword', {oldPassword: oldPassword, newPassword: newPasswordFirst});
+            checkIPCMessage(result);
+
+            //Set DOM
+            newPasswordFirstEle.value = "";
+            newPasswordSecondEle.value = "";
+            inputOldPasswordEle.value = "";
+            newPasswordSecondEle.parentElement.classList.remove("is-dirty");
+            newPasswordFirstEle.parentElement.classList.remove("is-dirty");
+            inputOldPasswordEle.parentElement.classList.remove("is-dirty");
+            dialog = document.getElementById("dialog-successful");
+            dialog.showModal();
+            let oldPass = document.getElementById("old-password");
+            oldPass.style.display = 'block';
+            let headerPassword = document.getElementById("header-password");
+            headerPassword.innerHTML = "Change Password";
+            let removeEncBtn = document.getElementById("remove-encryption-button");
+            removeEncBtn.style.display = 'inline';
+        } catch (e) {
+            let secretError = document.getElementById('oldPasswordError');
+            secretError.parentElement.className += ' is-invalid';
+            secretError.textContent = e.message;
+        }
     } else {
         let newError = document.getElementById('newSecondPasswordError');
         newError.parentElement.className += ' is-invalid';
@@ -103,27 +105,32 @@ function removeEncryption() {
     let inputOldPasswordEle = document.getElementById('input-old');
     let secretError = document.getElementById('oldPasswordError');
     let inputOldPassword = inputOldPasswordEle.value;
-    if(inputOldPassword !== storage.getKey()) {
+    if(inputOldPassword === '') {
         secretError.parentElement.className += ' is-invalid';
         secretError.textContent = "To remove encryption you need to type in your password";
     } else {
-        storage.removeEncryption();
-        let serialize = storage.serialize();
-        ipcRenderer.send('update-storage', serialize);
-        newPasswordFirstEle.value = "";
-        newPasswordSecondEle.value = "";
-        inputOldPasswordEle.value = "";
-        newPasswordSecondEle.parentElement.classList.remove("is-dirty");
-        newPasswordFirstEle.parentElement.classList.remove("is-dirty");
-        inputOldPasswordEle.parentElement.classList.remove("is-dirty");
-        dialog = document.getElementById("dialog-successful");
-        dialog.showModal();
-        let oldPass = document.getElementById("old-password");
-        oldPass.style.display = 'none';
-        let headerPassword = document.getElementById("header-password");
-        headerPassword.innerHTML = "Add Password";
-        let removeEncBtn = document.getElementById("remove-encryption-button");
-        removeEncBtn.style.display = 'none';
+        try {
+            let result = ipcRenderer.sendSync('resetPassword', {oldPassword: inputOldPassword});
+            checkIPCMessage(result);
+
+            newPasswordFirstEle.value = "";
+            newPasswordSecondEle.value = "";
+            inputOldPasswordEle.value = "";
+            newPasswordSecondEle.parentElement.classList.remove("is-dirty");
+            newPasswordFirstEle.parentElement.classList.remove("is-dirty");
+            inputOldPasswordEle.parentElement.classList.remove("is-dirty");
+            dialog = document.getElementById("dialog-successful");
+            dialog.showModal();
+            let oldPass = document.getElementById("old-password");
+            oldPass.style.display = 'none';
+            let headerPassword = document.getElementById("header-password");
+            headerPassword.innerHTML = "Add Password";
+            let removeEncBtn = document.getElementById("remove-encryption-button");
+            removeEncBtn.style.display = 'none';
+        } catch (e) {
+            secretError.parentElement.className += ' is-invalid';
+            secretError.textContent = e.message;
+        }
     }
 }
 
@@ -171,4 +178,15 @@ function openLicenses() {
         protocol: 'file:',
         slashes: true
     }));
+}
+
+/**
+ * Check the ipc message
+ * @param message result message
+ * @throws error, if message contains one
+ */
+function checkIPCMessage(message) {
+    if(message.status !== 200) {
+        throw Error(message.error);
+    }
 }

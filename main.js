@@ -1,26 +1,25 @@
-const {app, BrowserWindow, clipboard} = require('electron');
+const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
-let ipcMain = require('electron').ipcMain;
-let Storage = require('./lib/storage');
+const {ipcMain} = require('electron');
+
+//Storage
+let StorageEngine = require('./lib/newStorage');
 let storage;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-let storageWindow;
 
-function createWindow () {
-    storageWindow = new BrowserWindow({ show: false });
-    storageWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'pages/storageProcess/storageProcess.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-    storageWindow.webContents.openDevTools();
-
+function createWindow() {
     // Create the browser window.
-    win = new BrowserWindow({width: 800, height: 600, minHeight: 300, minWidth: 450, icon: path.join(__dirname, 'img/icon64x64.png')});
+    win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        minHeight: 300,
+        minWidth: 450,
+        icon: path.join(__dirname, 'img/icon64x64.png')
+    });
 
     // Remove menu
     win.setMenu(null);
@@ -41,15 +40,17 @@ function createWindow () {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        win = null
-    })
+        win = null;
+        storage.lockFile();
+    });
+
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', function() {
-    storage = new Storage(app, undefined, false);
+app.on('ready', function () {
+    init();
     createWindow();
 });
 
@@ -58,29 +59,135 @@ app.on('window-all-closed', () => {
     // On macOS it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
-        app.quit()
-    } else {
-        storage = undefined;
+        app.quit();
+        storage = null;
     }
 });
+
 
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
-        storage = new Storage(app, undefined, false);
+        init();
         createWindow()
     }
 });
 
 
-//ipcMain listener
+/********************************************************
+ * Storage functions
+ *******************************************************/
 
-ipcMain.on('get-storage', function(event) {
-    event.returnValue = storage;
+
+function init() {
+    storage = new StorageEngine(app.getPath("userData") + '/eauth.data');
+}
+
+// ipc message = {status: Number, error: String}
+// status like HTTP status codes https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+
+ipcMain.on('getAllAccounts', (event) => {
+    event.returnValue = storage.getAllAccounts();
 });
 
-ipcMain.on('update-storage', function(event, arg) {
-    storage = arg;
+/**
+ * arg has the attribute name and newName
+ */
+ipcMain.on('renameAccount', (event, arg) => {
+    try {
+        storage.renameAccount(arg.name, arg.newName);
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 400, error: e.message};
+    }
+    event.returnValue = 'pong'
 });
 
+/**
+ * arg has the attribute name
+ */
+ipcMain.on('deleteAccount', (event, arg) => {
+    try {
+        storage.deleteAccount(arg.name);
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 400, error: e.message};
+    }
+});
+
+/**
+ * arg has attribute account ({name: nameOfAccount, secret: preShared
+ */
+ipcMain.on('addAccount', (event, arg) => {
+    try {
+        storage.addAccount(arg.account);
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 400, error: e.message};
+    }
+});
+
+/**
+ * arg has attribute oldPassword and newPassword
+ */
+ipcMain.on('changePassword', (event, arg) => {
+    try {
+        storage.changePassword(arg.oldPassword, arg.newPassword);
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 400, error: e.message};
+    }
+});
+
+/**
+ * arg has attribute oldPassword
+ */
+ipcMain.on('resetPassword', (event, arg) => {
+    try {
+        storage.resetPassword(arg.oldPassword);
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 400, error: e.message};
+    }
+});
+
+ipcMain.on('lockFile', (event) => {
+    try {
+        storage.lockFile();
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 500, error: e.message};
+    }
+});
+
+/**
+ * arg has attribute password
+ */
+ipcMain.on('unlockFile', (event, arg) => {
+    try {
+        storage.unlockFile(arg.password, false);
+        event.returnValue = {status: 200, error: ""};
+    }
+    catch (e) {
+        event.returnValue = {status: 400, error: e.message};
+    }
+});
+
+ipcMain.on('needPassword', (event) => {
+    event.returnValue = storage.needPassword();
+});
+
+ipcMain.on('noFileFound', (event) => {
+    event.returnValue = storage.noFileFound();
+});
+
+ipcMain.on('useDefaultPassword', (event) => {
+    event.returnValue = storage.useDefPass();
+});

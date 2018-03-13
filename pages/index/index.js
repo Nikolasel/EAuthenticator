@@ -1,5 +1,4 @@
 let win = require('electron').remote.getCurrentWindow();
-let Storage = require('../../lib/storage');
 const path = require('path');
 const url = require('url');
 const remote = require('electron').remote;
@@ -7,9 +6,6 @@ const clipboard = require('electron').clipboard;
 let app = undefined;
 if (remote !== undefined) app = remote.app;
 let ipcRenderer = require('electron').ipcRenderer;
-let storageOldData = ipcRenderer.sendSync('get-storage');
-let storage = new Storage(app, storageOldData, true);
-let TOTP = require('../../lib/totp');
 const openAboutWindow = require('about-window').default;
 
 let dialog = undefined;
@@ -39,20 +35,34 @@ function openSettings() {
 }
 
 /**
+ * Open about window
+ */
+function openAbout() {
+    openAboutWindow({
+        icon_path: '../../img/icon300x300.png',
+        copyright: 'Copyright(c) 2018 Nikolasel',
+        homepage: 'https://github.com/Nikolasel/EAuthenticator',
+        description: 'An Electron Desktop app compatible with Google Authenticator',
+        license: 'GPL-3.0',
+    });
+}
+
+/**
  * Checks if data is encrypted
  */
 function init() {
-    if (storage.isDataEncrypted() && storage.getKey() === "") {
+    let needPassword = ipcRenderer.sendSync('needPassword');
+    let noFileFound = ipcRenderer.sendSync('noFileFound');
+
+    if(noFileFound) {
+        dialog = document.getElementById("dialog-new-password");
+        dialog.showModal();
+    } else if (needPassword) {
         //Set Password
         dialog = document.getElementById("dialog-decrypt");
         dialog.showModal();
     } else {
-        if(storage.existsFileInPath()) {
-            showAccounts();
-        } else {
-            dialog = document.getElementById("dialog-new-password");
-            dialog.showModal();
-        }
+        showAccounts();
     }
 }
 
@@ -61,7 +71,7 @@ function init() {
  */
 function showAccounts() {
     let list = document.getElementById("list-of-accounts");
-    let accounts = storage.getAllAccounts();
+    let accounts = ipcRenderer.sendSync('getAllAccounts');
     let pins = [];
     let times = [];
     if (accounts.length === 0) {
@@ -116,8 +126,6 @@ function showAccounts() {
             spanEnd.appendChild(btnRename);
             spanEnd.appendChild(btnDelete);
 
-            //spanEnd.innerHTML = //'<button class="mdl-button mdl-js-button mdl-button--icon" onclick="renameAccount(accounts[i].name)"><i class="material-icons mdl-color-text--blue-grey-400">create</i></button>' + ' ' +
-            //    '<button class="mdl-button mdl-js-button mdl-button--icon"><i class="material-icons mdl-color-text--blue-grey-400">delete</i></button>';
             listItem.appendChild(spanEnd);
             list.appendChild(listItem);
             list.appendChild(document.createElement('hr'));
@@ -126,7 +134,7 @@ function showAccounts() {
         }
         componentHandler.upgradeDom();
         updatePin(accounts, pins);
-        //updateAll(times, accounts, pins);
+        updateChart(getSecUntil30(), times);
         window.setTimeout(function () {
             window.setInterval(function () {
                 updateAll(times, accounts, pins);
@@ -145,8 +153,18 @@ function showAccounts() {
 function updateAll(times, accounts, pins) {
     let seconds = getSecUntil30();
     if (seconds === 30) {
-        updatePin(accounts, pins);
+        let newAccounts = ipcRenderer.sendSync('getAllAccounts');
+        updatePin(newAccounts, pins);
     }
+    updateChart(seconds, times);
+}
+
+/**
+ * Updates the chart with the current seconds
+ * @param seconds current seconds
+ * @param times elements for chart
+ */
+function updateChart(seconds, times) {
     for (let i = 0; i < times.length; i++) {
         makeChart(seconds, times[i]);
     }
@@ -159,8 +177,7 @@ function updateAll(times, accounts, pins) {
  */
 function updatePin(accounts, accountsMid) {
     for (let i = 0; i < accounts.length; i++) {
-        let totp = new TOTP(accounts[i].secret);
-        accountsMid[i].innerHTML = totp.getPinAsString();
+        accountsMid[i].innerHTML = accounts[i].pin;
     }
 }
 
@@ -271,9 +288,8 @@ function closeDialog() {
 function saveRename() {
     let newName = document.getElementById("input-rename").value;
     try {
-        storage.renameAccount(renameOld, newName);
-        let serialize = storage.serialize();
-        ipcRenderer.send('update-storage', serialize);
+        let resultRename = ipcRenderer.sendSync("renameAccount", {name: renameOld, newName: newName});
+        checkIPCMessage(resultRename);
         closeDialog();
         remote.getCurrentWindow().reload();
     }
@@ -289,9 +305,9 @@ function saveRename() {
  */
 function deleteAccount() {
     try {
-        storage.deleteAccount(selectedForDelete);
-        let serialize = storage.serialize();
-        ipcRenderer.send('update-storage', serialize);
+        let resultDelete = ipcRenderer.sendSync("deleteAccount", {name: selectedForDelete});
+        checkIPCMessage(resultDelete);
+        closeDialog();
         remote.getCurrentWindow().reload();
     }
     catch (e) {
@@ -307,22 +323,17 @@ function tryDecrypt() {
     let key = input.value;
     let error = document.getElementById('decryptError');
     try {
-        let cryptoPromise = storage.setKey(key);
-        cryptoPromise.then(function (plaintext) {
-            storage.parseData(plaintext.data);
-            let serialize = storage.serialize();
-            ipcRenderer.send('update-storage', serialize);
-            showAccounts();
-            dialog.close();
-        }, function () {
-            error.parentElement.className += ' is-invalid';
-            error.textContent = "Password invalid";
-        })
+        let resultDecrypt = ipcRenderer.sendSync("unlockFile", {password: key});
+        checkIPCMessage(resultDecrypt);
+        showAccounts();
+        closeDialog();
     }
     catch (e) {
         if (e !== "Invalid data") {
             error.parentElement.className += ' is-invalid';
             error.textContent = "Password invalid";
+        } else {
+            alert(e.message);
         }
     }
 }
@@ -350,14 +361,20 @@ function savePassword() {
     }
     if(bool) return;
     if(newPasswordFirst === newPasswordSecond) {
-        storage.setNewKey(newPasswordFirst);
-        let serialize = storage.serialize();
-        ipcRenderer.send('update-storage', serialize);
-        newPasswordFirstEle.value = "";
-        newPasswordSecondEle.value = "";
-        newPasswordSecondEle.parentElement.classList.remove("is-dirty");
-        newPasswordFirstEle.parentElement.classList.remove("is-dirty");
-        dialog.close();
+        try {
+            let resultDecrypt = ipcRenderer.sendSync("changePassword", {
+                oldPassword: 'defaultPassword',
+                newPassword: newPasswordFirst
+            });
+            checkIPCMessage(resultDecrypt);
+            newPasswordFirstEle.value = "";
+            newPasswordSecondEle.value = "";
+            newPasswordSecondEle.parentElement.classList.remove("is-dirty");
+            newPasswordFirstEle.parentElement.classList.remove("is-dirty");
+            closeDialog();
+        } catch (e) {
+            alert(e.message);
+        }
     } else {
         let newError = document.getElementById('passwordError2');
         newError.parentElement.className += ' is-invalid';
@@ -366,14 +383,13 @@ function savePassword() {
 }
 
 /**
- * Open about window
+ * Check the ipc message
+ * @param message result message
+ * @throws error, if message contains one
  */
-function openAbout() {
-    openAboutWindow({
-        icon_path: '../../img/icon300x300.png',
-        copyright: 'Copyright(c) 2018 Nikolasel',
-        homepage: 'https://github.com/Nikolasel/EAuthenticator',
-        description: 'An Electron Desktop app compatible with Google Authenticator',
-        license: 'GPL-3.0',
-    });
+function checkIPCMessage(message) {
+    if(message.status !== 200) {
+        throw Error(message.error);
+    }
 }
+

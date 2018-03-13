@@ -3,7 +3,7 @@ let app = undefined;
 if (remote !== undefined) app = remote.app;
 let StorageEngine = require('../../lib/newStorage');
 let storage;
-let ipcMain = require('electron').ipcMain;
+const {ipcRenderer} = require('electron');
 
 function init() {
     storage = new StorageEngine(app.getPath("userData") + '/eauth.data');
@@ -12,14 +12,14 @@ function init() {
 // ipc message = {status: Number, error: String}
 // status like HTTP status codes https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 
-ipcMain.on('getAllAccounts', (event) => {
+ipcRenderer.on('getAllAccounts', (event) => {
     event.returnValue = storage.getAllAccounts();
 });
 
 /**
  * arg has the attribute name and newName
  */
-ipcMain.on('renameAccount', (event, arg) => {
+ipcRenderer.on('renameAccount', (event, arg) => {
     try {
         storage.renameAccount(arg.name, arg.newName);
         event.returnValue = {status: 200, error: ""};
@@ -33,7 +33,7 @@ ipcMain.on('renameAccount', (event, arg) => {
 /**
  * arg has the attribute name
  */
-ipcMain.on('deleteAccount', (event, arg) => {
+ipcRenderer.on('deleteAccount', (event, arg) => {
     try {
         storage.deleteAccount(arg.name);
         event.returnValue = {status: 200, error: ""};
@@ -46,7 +46,7 @@ ipcMain.on('deleteAccount', (event, arg) => {
 /**
  * arg has attribute account ({name: nameOfAccount, secret: preShared
  */
-ipcMain.on('addAccount', (event, arg) => {
+ipcRenderer.on('addAccount', (event, arg) => {
     try {
         storage.addAccount(arg.account);
         event.returnValue = {status: 200, error: ""};
@@ -59,7 +59,7 @@ ipcMain.on('addAccount', (event, arg) => {
 /**
  * arg has attribute oldPassword and newPassword
  */
-ipcMain.on('changePassword', (event, arg) => {
+ipcRenderer.on('changePassword', (event, arg) => {
     try {
         storage.changePassword(arg.oldPassword, arg.newPassword);
         event.returnValue = {status: 200, error: ""};
@@ -72,7 +72,7 @@ ipcMain.on('changePassword', (event, arg) => {
 /**
  * arg has attribute oldPassword
  */
-ipcMain.on('resetPassword', (event, arg) => {
+ipcRenderer.on('resetPassword', (event, arg) => {
     try {
         storage.resetPassword(arg.oldPassword);
         event.returnValue = {status: 200, error: ""};
@@ -82,7 +82,7 @@ ipcMain.on('resetPassword', (event, arg) => {
     }
 });
 
-ipcMain.on('lockFile', (event) => {
+ipcRenderer.on('lockFile', (event) => {
     try {
         storage.lockFile();
         event.returnValue = {status: 200, error: ""};
@@ -95,7 +95,7 @@ ipcMain.on('lockFile', (event) => {
 /**
  * arg has attribute password
  */
-ipcMain.on('unlockFile', (event, arg) => {
+ipcRenderer.on('unlockFile', (event, arg) => {
     try {
         storage.unlockFile(arg.password, false);
         event.returnValue = {status: 200, error: ""};
@@ -105,10 +105,14 @@ ipcMain.on('unlockFile', (event, arg) => {
     }
 });
 
-ipcMain.on('needPassword', (event) => {
-    event.returnValue = storage.needPassword();
+ipcRenderer.on('needPassword', (event) => {
+    let res = storage.needPassword();
+    console.log(res);
+    event.returnValue = res;
 });
 
-ipcMain.on('noFileFound', (event) => {
-    event.returnValue = storage.noFileFound();
+ipcRenderer.on('noFileFound', (event) => {
+    let res = storage.noFileFound();
+    console.log(res);
+    event.returnValue = res;
 });
