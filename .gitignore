@@ -4,3 +4,4 @@ package-lock.json
 npm-debug-log
 builds/*
 licenses.json
+.DS_Store
