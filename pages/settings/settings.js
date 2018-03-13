@@ -59,7 +59,7 @@ function savePassword() {
             }
             let result = ipcRenderer.sendSync('changePassword', {oldPassword: oldPassword, newPassword: newPasswordFirst});
             checkIPCMessage(result);
-
+            useDefaultPassword = false;
             //Set DOM
             newPasswordFirstEle.value = "";
             newPasswordSecondEle.value = "";
@@ -112,7 +112,7 @@ function removeEncryption() {
         try {
             let result = ipcRenderer.sendSync('resetPassword', {oldPassword: inputOldPassword});
             checkIPCMessage(result);
-
+            useDefaultPassword = true;
             newPasswordFirstEle.value = "";
             newPasswordSecondEle.value = "";
             inputOldPasswordEle.value = "";

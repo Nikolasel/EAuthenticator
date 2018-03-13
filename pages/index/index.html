@@ -36,7 +36,7 @@
                         About EAuthenticator
                     </div>
                 </button>
-                <button class="mdl-button mdl-js-button mdl-button--icon">
+                <button class="mdl-button mdl-js-button mdl-button--icon" onclick="lockApp()">
                     <div id="lock" class="icon material-icons">lock_outline</div>
                     <div class="mdl-tooltip capa" data-mdl-for="lock">
                         Lock app
@@ -101,7 +101,7 @@
 <dialog id="dialog-decrypt" class="mdl-dialog">
     <h4 class="mdl-dialog__title">Decrypt</h4>
     <div class="mdl-dialog__content">
-        <p>Your data ist encrypted. Tip in the password.</p>
+        <p>Your data ist encrypted. Type in the password.</p>
         <div class="mdl-textfield mdl-js-textfield" id="container-decrypt">
             <input class="mdl-textfield__input" type="password" id="input-decrypt">
             <label class="mdl-textfield__label" for="input-decrypt">Password</label>

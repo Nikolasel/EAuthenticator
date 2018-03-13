@@ -11,6 +11,7 @@ const openAboutWindow = require('about-window').default;
 let dialog = undefined;
 let renameOld = "";
 let selectedForDelete = "";
+let idleTime = 0;
 
 /**
  * Go to add.html
@@ -70,6 +71,8 @@ function init() {
  * Displays the accounts from storage
  */
 function showAccounts() {
+    //Only auto lock after accounts are visible
+    idleLock();
     let list = document.getElementById("list-of-accounts");
     let accounts = ipcRenderer.sendSync('getAllAccounts');
     let pins = [];
@@ -382,6 +385,17 @@ function savePassword() {
     }
 }
 
+function lockApp() {
+    try {
+        let result = ipcRenderer.sendSync('lockFile');
+        checkIPCMessage(result);
+        remote.getCurrentWindow().reload();
+    }
+    catch (e) {
+        alert(e.message);
+    }
+}
+
 /**
  * Check the ipc message
  * @param message result message
@@ -393,3 +407,20 @@ function checkIPCMessage(message) {
     }
 }
 
+/**
+ * Auto locks the app after 5 minutes
+ */
+function idleLock() {
+    window.onload = resetTimer;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer; // catches touchscreen presses
+    window.onclick = resetTimer;     // catches touchpad clicks
+    window.onscroll = resetTimer;    // catches scrolling with arrow keys
+    window.onkeypress = resetTimer;
+
+
+    function resetTimer() {
+        clearTimeout(idleTime);
+        idleTime = setTimeout(lockApp, 300000);  // time is in milliseconds
+    }
+}

@@ -2,9 +2,10 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
 const {ipcMain} = require('electron');
+const {dialog} = require('electron')
 
 //Storage
-let StorageEngine = require('./lib/newStorage');
+let StorageEngine = require('./lib/storage');
 let storage;
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -41,7 +42,11 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         win = null;
-        storage.lockFile();
+        let promise = storage.lockFile();
+        promise.catch((e) => {
+            dialog.showErrorBox('EAuthenticator Error', e.message);
+        });
+
     });
 
 }
@@ -158,26 +163,24 @@ ipcMain.on('resetPassword', (event, arg) => {
 });
 
 ipcMain.on('lockFile', (event) => {
-    try {
-        storage.lockFile();
+    let promise = storage.lockFile();
+    promise.then(() => {
         event.returnValue = {status: 200, error: ""};
-    }
-    catch (e) {
-        event.returnValue = {status: 500, error: e.message};
-    }
+    }, (e) => {
+        event.returnValue = {status: 400, error: e.message};
+    });
 });
 
 /**
  * arg has attribute password
  */
 ipcMain.on('unlockFile', (event, arg) => {
-    try {
-        storage.unlockFile(arg.password, false);
+    let promise = storage.unlockFile(arg.password);
+    promise.then(() => {
         event.returnValue = {status: 200, error: ""};
-    }
-    catch (e) {
+    }, (e) => {
         event.returnValue = {status: 400, error: e.message};
-    }
+    });
 });
 
 ipcMain.on('needPassword', (event) => {

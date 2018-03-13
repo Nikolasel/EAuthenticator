@@ -1,6 +1,7 @@
 let assert = require('assert');
+let fs = require('fs');
 let TOTP = require('../lib/totp');
-let StorageEngine = require('../lib/newStorage');
+let StorageEngine = require('../lib/storage');
 let ChaCha20 = require('js-chacha20/src/jschacha20');
 let textEncoding = require('text-encoding');
 let TextDecoder = textEncoding.TextDecoder;
@@ -24,7 +25,7 @@ describe('Storage Test', function () {
 
     beforeEach(function () {
         setTimeout(function(){
-            console.log("waited 1000");
+            console.log("waited 1000ms");
         }, 1000);
     });
 
@@ -71,13 +72,16 @@ describe('Storage Test', function () {
         let oldKeyAccounts = storage2.keyAccount;
         let oldKeyAccountNonce = storage2.keyAccountNonce;
         storage2.pathToFile = "Files/test.gpg";
-        storage2.lockFile();
-        assert.equal(storage2.chaChaAccounts, '');
-        assert.equal(storage2.chaChaPassword, '');
-        assert.notEqual(storage2.keyAccount, oldKeyAccounts);
-        assert.notEqual(storage2.keyAccountNonce, oldKeyAccountNonce);
-        assert.notEqual(storage2.keyPassword, oldKeyPassword);
-        assert.notEqual(storage2.keyPasswordNonce, oldKeyPasswordNonce);
+        let promise = storage2.lockFile();
+        promise.then(function () {
+            assert.equal(storage2.chaChaAccounts, '');
+            assert.equal(storage2.chaChaPassword, '');
+            assert.notEqual(storage2.keyAccount, oldKeyAccounts);
+            assert.notEqual(storage2.keyAccountNonce, oldKeyAccountNonce);
+            assert.notEqual(storage2.keyPassword, oldKeyPassword);
+            assert.notEqual(storage2.keyPasswordNonce, oldKeyPasswordNonce);
+            fs.unlinkSync("Files/test.gpg");
+        });
     });
 });
 
@@ -136,5 +140,7 @@ describe('Storage Test: Account functions', function () {
 });
 
 function unlockStorage(storage, password) {
-    storage.unlockFile(password, false);
+    storage.unlockFile(password, false).then(function () {
+        console.log("Unlock Storage successful!");
+    });
 }
