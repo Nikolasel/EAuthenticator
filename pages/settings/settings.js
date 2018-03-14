@@ -99,7 +99,7 @@ function closeDialog() {
 /**
  * Removes the encryption of accounts
  */
-function removeEncryption() {
+function resetEncryption() {
     let newPasswordFirstEle = document.getElementById('input-new-first');
     let newPasswordSecondEle = document.getElementById('input-new-second');
     let inputOldPasswordEle = document.getElementById('input-old');
@@ -151,21 +151,20 @@ function checkTime() {
         let timeMessage = document.getElementById("text-time");
         if (err) {
             timeMessage.innerHTML = 'Failed: ' + "Cannot connect to time server";
-            return;
+            process.exit(1);
         }
         if(time.t > 100 ) {
             let sec = Math.round((time.t / 1000) * 10) / 10;
             timeMessage.innerHTML = "Your clock is " + sec + " seconds behind";
-            return;
+            process.exit(0);
         }
         if(time.t < -100) {
             let sec = Math.round(Math.abs(time.t / 1000) * 10) / 10;
             timeMessage.innerHTML =  "Your clock is " + sec + " seconds ahead";
-            return;
+            process.exit(0);
         }
         timeMessage.innerHTML = "Your time ist good enough";
-
-
+        process.exit(0);
     });
 }
 

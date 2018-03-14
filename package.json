@@ -1,7 +1,7 @@
 {
   "name": "EAuthenticator",
   "productname": "EAuthenticator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An Electron Desktop app compatible with Google Authenticator",
   "main": "main.js",
   "author": "Nikolasel",
@@ -16,12 +16,13 @@
     "openpgp": "^2.5.10",
     "secure-random": "^1.1.1",
     "npm-license-crawler": "^0.1.7",
-    "open": "^0.0.5"
+    "open": "^0.0.5",
+    "sntp":"^3.0.1",
+    "text-encoding": "^0.6.4"
   },
   "devDependencies": {
     "electron-packager": "^9.1.0",
-    "mocha": "^3.5.0",
-    "text-encoding": "^0.6.4"
+    "mocha": "^3.5.0"
   },
   "repository": {
     "type": "git",

@@ -71,15 +71,15 @@ function init() {
  * Displays the accounts from storage
  */
 function showAccounts() {
-    //Only auto lock after accounts are visible
-    idleLock();
+    //determine lock environment
+    setupLock();
     let list = document.getElementById("list-of-accounts");
     let accounts = ipcRenderer.sendSync('getAllAccounts');
     let pins = [];
     let times = [];
     if (accounts.length === 0) {
         //Help to add new Account
-        alert("Empty: " + app.getPath("userData"));
+        //alert("Empty: " + app.getPath("userData"));
     } else {
         for (let i = 0; i < accounts.length; i++) {
             let listItem = document.createElement('li');
@@ -379,6 +379,7 @@ function savePassword() {
             newPasswordSecondEle.parentElement.classList.remove("is-dirty");
             newPasswordFirstEle.parentElement.classList.remove("is-dirty");
             closeDialog();
+            showAccounts();
         } catch (e) {
             alert(e.message);
         }
@@ -426,5 +427,20 @@ function idleLock() {
     function resetTimer() {
         clearTimeout(idleTime);
         idleTime = setTimeout(lockApp, 300000);  // time is in milliseconds
+    }
+}
+
+function setupLock() {
+    let defaultPassword = ipcRenderer.sendSync('useDefaultPassword');
+    if(defaultPassword) {
+        //deactivate lock button mdl-button--disabled
+        let lockButton = document.getElementById("appLocker");
+        lockButton.className += ' mdl-button--disabled';
+        lockButton.disabled = true;
+        let lockText = document.getElementById("lockerText");
+        lockText.innerText = "Lock App Disabled"
+    } else {
+        //set auto idle lock
+        idleLock();
     }
 }

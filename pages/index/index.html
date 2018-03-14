@@ -36,9 +36,9 @@
                         About EAuthenticator
                     </div>
                 </button>
-                <button class="mdl-button mdl-js-button mdl-button--icon" onclick="lockApp()">
+                <button id='appLocker' class="mdl-button mdl-js-button mdl-button--icon" onclick="lockApp()">
                     <div id="lock" class="icon material-icons">lock_outline</div>
-                    <div class="mdl-tooltip capa" data-mdl-for="lock">
+                    <div id='lockerText' class="mdl-tooltip capa" data-mdl-for="lock">
                         Lock app
                     </div>
                 </button>
@@ -130,7 +130,7 @@
     </div>
     <div class="mdl-dialog__actions">
         <button type="button" class="mdl-button mdl-button--colored" onclick="savePassword()">Save</button>
-        <button type="button" class="mdl-button mdl-button--colored" onclick="closeDialog()">Close</button>
+        <button type="button" class="mdl-button mdl-button--colored" onclick="closeDialog();showAccounts()">Close</button>
     </div>
 </dialog>
 

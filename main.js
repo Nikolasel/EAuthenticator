@@ -44,7 +44,7 @@ function createWindow() {
         win = null;
         let promise = storage.lockFile();
         promise.catch((e) => {
-            dialog.showErrorBox('EAuthenticator Error', e.message);
+            catchError(e);
         });
 
     });
@@ -79,14 +79,29 @@ app.on('activate', () => {
     }
 });
 
+/**
+ * Show dialog if an error was thrown
+ * @param error
+ */
+function catchError(error) {
+    dialog.showErrorBox('EAuthenticator Error', error.message);
+}
+
 
 /********************************************************
  * Storage functions
  *******************************************************/
 
-
+/**
+ * Init the storage
+ */
 function storageInit() {
-    storage = new StorageEngine(app.getPath("userData") + '/eauth.data');
+    try {
+        storage = new StorageEngine(app.getPath("userData") + '/eauth.data');
+    }
+    catch (e) {
+        catchError(e);
+    }
 }
 
 // ipc message = {status: Number, error: String}
@@ -184,13 +199,26 @@ ipcMain.on('unlockFile', (event, arg) => {
 });
 
 ipcMain.on('needPassword', (event) => {
-    event.returnValue = storage.needPassword();
+    try {
+        event.returnValue = storage.needPassword();
+    }
+    catch (e) {
+        catchError(e);
+    }
 });
 
 ipcMain.on('noFileFound', (event) => {
-    event.returnValue = storage.noFileFound();
+    try {
+        event.returnValue = storage.noFileFound();
+    } catch (e) {
+        catchError(e);
+    }
 });
 
 ipcMain.on('useDefaultPassword', (event) => {
-    event.returnValue = storage.useDefPass();
+    try {
+        event.returnValue = storage.useDefPass();
+    } catch (e) {
+        catchError(e);
+    }
 });

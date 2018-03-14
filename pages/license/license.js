@@ -37,7 +37,7 @@ function addLicense(name, ele) {
     licenseText.className += " link";
     licenseText.innerHTML = "License Text: " + ele.licenseUrl;
     licenseText.addEventListener("click", function(event) {
-        openUrl(ele.licenseUrl)
+        openUrl(ele.licenseUrl);
         event.preventDefault();
     });
     let hrEle = document.createElement('hr');
