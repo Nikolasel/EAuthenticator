@@ -1,7 +1,7 @@
 node_modules/*
 package-lock.json
 .idea/*
-npm-debug-log
+npm-debug.log
 builds/*
 licenses.json
 .DS_Store

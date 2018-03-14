@@ -131,8 +131,16 @@ The flatpak file will be in the directory release-builds/installers
 
 
 ### Build for macOS
+Note: Build this on macOS.
 
-
+1. Run the following command to package a executable
+    ```
+    npm run package-mac
+    ```
+2. Create an installer with
+     ```
+     npm run create-installer-mac
+     ```
 
 
 ## Storage design

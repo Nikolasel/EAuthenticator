@@ -39,7 +39,7 @@
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
     "package-win": "electron-packager . EAuthenticator --overwrite --asar --platform=win32 --arch=ia32 --icon=img/icon300x300.png --prune=true --out=release-builds --version-string.CompanyName=Nikolasel --version-string.FileDescription=EAuthenticator --version-string.ProductName=\"EAuthenticator\"",
     "package-linux": "electron-packager . EAuthenticator --overwrite --platform=linux --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
-    "create-installer-mac": "electron-installer-dmg ./release-builds/EAuthenticator-darwin-x64/EAuthenticator.app ./release-builds/installers/eautenticator --out=release-builds --overwrite --icon=img/icon300x300.png",
+    "create-installer-mac": "electron-installer-dmg ./release-builds/EAuthenticator-darwin-x64/EAuthenticator.app eauthenticator --out=release-builds --overwrite --icon=img/icon300x300.png",
     "create-installer-win": "node installers/windows/createinstaller.js",
     "create-installer-linux": "electron-installer-flatpak --src release-builds/EAuthenticator-linux-x64/ --dest release-builds/installers/ --arch x64 --icon=img/icon300x300.png"
   }
