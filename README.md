@@ -1,6 +1,6 @@
 # An Electron Desktop app compatible with Google Authenticator
 
-<img src="img/title.png" alt="EAuthenticator" width=517 height=233>
+<div style="text-align:center"><img src="img/title.png" alt="EAuthenticator" width=517 height=233></div>
 
 This is an open source two-factor authentication software which encrypts your data by default. It uses [electron](https://electronjs.org/) and it is similarly designed to [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2). This gives it the name 'EAuthenticator'. EAuthenticator is an easy to use Authenticator for desktop operating systems. At the moment EAuthenticator only supports Time-based One-Time Password algorithm (TOTP) [RFC 6238](https://tools.ietf.org/html/rfc6238).
 
@@ -9,6 +9,8 @@ This is an open source two-factor authentication software which encrypts your da
 **The basic idea of two-factor authentication is the use of different devices for your password and TOTP pin. Using this software on the same device as your login reduces the security level. Nevertheless, the use of this software on the same device is safer than completely waiving no two-factor authentication.**
 
 ## How to USE
+
+The following should help you to use EAuthenticator.
 
 ### Standard view
 The following picture shows the standard functionalities of the application:
@@ -35,9 +37,7 @@ In the new window you can specify the account name and the shared secret of your
 Only time based two-factor authentication is possible in the current version.
 
 ### Delete an account
-To delete a account you have to click the corresponding bin icon:
-
-<img src="img/standardBin.png" alt="Standard view" width=800 height= 600>
+To delete a account you have to click the corresponding bin icon.
 
 The following dialog will pop up:
 
@@ -45,9 +45,7 @@ The following dialog will pop up:
 
 
 ### Rename an account
-To rename a account you have to click the corresponding pencil icon:
-
-<img src="img/standardPencil.png" alt="Standard view" width=800 height= 600>
+To rename a account you have to click the corresponding pencil icon.
 
 The following dialog will pop up:
 
@@ -57,13 +55,9 @@ The following dialog will pop up:
 ### Lock app
 If you click the lock icon on the title bar the app will be locked. This means your in memory data will be removed. If you don't specify a password it's not possible to lock the app.
 
-<img src="img/standardLock.png" alt="Standard view" width=800 height= 600>
-
 
 ### Add encryption
 To add a personal password you need to go to the settings view. Therefor click the gear icon in the title bar.
-
-<img src="img/standardSettings.png" alt="Standard view" width=800 height= 600>
 
 There specify a new password:
 
@@ -74,8 +68,6 @@ There specify a new password:
 
 To reset the personal password you need to go to the settings view. Therefor click the gear icon in the title bar.
 
-<img src="img/standardSettings.png" alt="Standard view" width=800 height= 600>
-
 There fill in the old password and click 'Reset encryption'.
 
 <img src="img/changeOrResetPassword.png" alt="Change or reset password view" width=800 height= 600>
@@ -83,6 +75,8 @@ There fill in the old password and click 'Reset encryption'.
 If you fill in a new password you can change your password with clicking 'Save'.
 
 ## How to BUILD
+
+### Requirements for all platforms
 
 1. Install npm for your operating system
 
@@ -97,16 +91,15 @@ If you fill in a new password you can change your password with clicking 'Save'.
     ```
     npm run license
     ```
-
-4. Optional: To try the software run the following command
-
-    ```
-    npm start
-    ```
-5. Optional: Run unit tests
+4. Optional: Run unit tests
 
     ```
     npm test
+    ```
+5. Optional: To try the software run the following command
+
+    ```
+    npm start
     ```
 ### Build for Linux via Flatpak
 Note: Build this on a Linux operating system.
