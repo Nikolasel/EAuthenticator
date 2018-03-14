@@ -151,20 +151,19 @@ function checkTime() {
         let timeMessage = document.getElementById("text-time");
         if (err) {
             timeMessage.innerHTML = 'Failed: ' + "Cannot connect to time server";
-            process.exit(1);
+            return;
         }
         if(time.t > 100 ) {
             let sec = Math.round((time.t / 1000) * 10) / 10;
             timeMessage.innerHTML = "Your clock is " + sec + " seconds behind";
-            process.exit(0);
+            return;
         }
         if(time.t < -100) {
             let sec = Math.round(Math.abs(time.t / 1000) * 10) / 10;
             timeMessage.innerHTML =  "Your clock is " + sec + " seconds ahead";
-            process.exit(0);
+            return;
         }
         timeMessage.innerHTML = "Your time ist good enough";
-        process.exit(0);
     });
 }
 

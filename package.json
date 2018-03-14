@@ -17,7 +17,7 @@
     "secure-random": "^1.1.1",
     "npm-license-crawler": "^0.1.7",
     "open": "^0.0.5",
-    "sntp":"^3.0.1",
+    "sntp": "=2.0.1",
     "text-encoding": "^0.6.4"
   },
   "devDependencies": {
