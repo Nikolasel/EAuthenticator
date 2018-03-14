@@ -5,3 +5,4 @@ npm-debug-log
 builds/*
 licenses.json
 .DS_Store
+release-builds/*

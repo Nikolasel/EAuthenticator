@@ -84,13 +84,55 @@ If you fill in a new password you can change your password with clicking 'Save'.
 
 ## How to BUILD
 
-First start to generate the licenses.json file. This is necessary to show the licenses in the application
+1. Install npm for your operating system
 
+2. Install dependencies
+
+   ```
+   npm install
+   ```
+
+3. Generate the licenses.json file. This is necessary to show the licenses in the application
+
+    ```
     npm run license
+    ```
 
-To try the software run following command
+4. Optional: To try the software run the following command
 
+    ```
     npm start
+    ```
+5. Optional: Run unit tests
+
+    ```
+    npm test
+    ```
+### Build for Linux via Flatpak
+Note: Build this on a Linux operating system.
+
+1. Install flatpak and the flatpak runtime for your operating system.
+
+2. Install flatpak-builder for your operating system
+
+3. Run the following command to package a executable
+    ```
+    npm run package-linux
+    ```
+4. Create an installer with
+     ```
+     npm run create-installer-linux
+     ```
+The flatpak file will be in the directory release-builds/installers
+
+### Build for Windows
+
+
+
+
+### Build for macOS
+
+
 
 
 ## Storage design
