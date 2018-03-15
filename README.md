@@ -80,23 +80,32 @@ If you fill in a new password you can change your password with clicking 'Save'.
 
 1. Install [Node.js](https://nodejs.org/en/download/) and npm for your operating system
 
-2. Install dependencies
+2. Clone the repository
+    ```
+    git clone https://github.com/Nikolasel/EAuthenticator.git
+    ```
+
+3. Change to the correct directory
+    ```
+    cd EAuthenticator
+    ```
+4. Install dependencies
 
    ```
    npm install
    ```
 
-3. Generate the licenses.json file. This is necessary to show the licenses in the application
+5. Generate the licenses.json file. This is necessary to show the licenses in the application
 
     ```
     npm run license
     ```
-4. Optional: Run unit tests
+6. Optional: Run unit tests
 
     ```
     npm test
     ```
-5. Optional: To try the software run the following command
+7. Optional: To try the software run the following command
 
     ```
     npm start
@@ -104,15 +113,15 @@ If you fill in a new password you can change your password with clicking 'Save'.
 ### Build for Linux via Flatpak
 Note: Build this on a Linux operating system.
 
-1. Install [flatpak](https://flatpak.org/getting.html) and the flatpak runtime for your operating system.
+8. Install [flatpak](https://flatpak.org/getting.html) and the flatpak runtime for your operating system.
 
-2. Install flatpak-builder for your operating system
+9. Install flatpak-builder for your operating system
 
-3. Run the following command to package a executable
+10. Run the following command to package a executable
     ```
     npm run package-linux
     ```
-4. Create an installer with
+11. Create an installer with
      ```
      npm run create-installer-linux
      ```
@@ -126,11 +135,11 @@ The flatpak file will be in the directory release-builds/installers
 ### Build for macOS
 Note: Build this on macOS.
 
-1. Run the following command to package a executable
+8. Run the following command to package a executable
     ```
     npm run package-mac
     ```
-2. Create an installer with
+9. Create an installer with
      ```
      npm run create-installer-mac
      ```
