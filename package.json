@@ -21,13 +21,12 @@
     "text-encoding": "^0.6.4"
   },
   "devDependencies": {
+    "electron-installer-debian": "^0.8.1",
     "electron-installer-dmg": "^0.2.1",
+    "electron-installer-redhat": "^0.5.0",
     "electron-packager": "^9.1.0",
     "electron-winstaller": "^2.6.4",
     "mocha": "^3.5.0"
-  },
-  "optionalDependencies": {
-    "electron-installer-flatpak": "^0.8.0"
   },
   "repository": {
     "type": "git",
@@ -40,9 +39,10 @@
     "license": "npm-license-crawler --json licenses.json",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=img/icon256x256.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . EAuthenticator --overwrite --asar --platform=win32 --arch=x64 --icon=img/icon256x256.ico --prune=true --out=release-builds --version-string.CompanyName=Nikolasel --version-string.FileDescription=EAuthenticator --version-string.ProductName=\"EAuthenticator\"",
-    "package-linux": "electron-packager . EAuthenticator --overwrite --platform=linux --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
+    "package-linux": "electron-packager . EAuthenticator --overwrite --asar --platform=linux --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
     "create-installer-mac": "electron-installer-dmg ./release-builds/EAuthenticator-darwin-x64/EAuthenticator.app EAuthenticator --out=release-builds --overwrite --icon=img/icon256x256.icns --background=img/background-mac-installer.png",
     "create-installer-win": "node installers/windows/createinstaller.js",
-    "create-installer-linux": "electron-installer-flatpak --src release-builds/EAuthenticator-linux-x64/ --dest release-builds/installers/ --arch x64 --icon=img/icon300x300.png"
+    "create-installer-deb": "electron-installer-debian --src release-builds/EAuthenticator-linux-x64/ --arch amd64 --config deb.json",
+    "create-installer-rpm": "electron-installer-redhat --src release-builds/EAuthenticator-linux-x64/ --arch x86_64 --config rpm.json"
   }
 }

@@ -110,22 +110,37 @@ If you fill in a new password you can change your password with clicking 'Save'.
     ```
     npm start
     ```
-### Build for Linux via Flatpak
+### Build for Linux
 **Note: Build this on a Linux operating system.**
 
-8. Install [flatpak](https://flatpak.org/getting.html) and the flatpak runtime for your operating system.
-
-9. Install flatpak-builder for your operating system
-
-10. Run the following command to build executables
+8. Run the following command to build executables
     ```
     npm run package-linux
     ```
-11. Create an installer with
+
+#### Build .deb (for Ubuntu/Debian)
+
+9. Create an installer with
      ```
-     npm run create-installer-linux
+     npm run create-installer-deb
      ```
-The flatpak file will be in the directory release-builds/installers
+
+#### Build .rpm (for Fedora/OpenSuse)
+
+9. Install **rpmbuild**
+
+    * Ubuntu
+        ```
+        sudo apt-get install rpm
+        ```
+    * Fedora
+      ```
+      sudo apt-get install rpm-build
+       ```
+10. Create an installer with
+     ```
+     npm run create-installer-rpm
+     ```
 
 ### Build for Windows
 **Note: Build this on Windows.**
