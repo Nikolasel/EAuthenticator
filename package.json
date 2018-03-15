@@ -22,10 +22,12 @@
   },
   "devDependencies": {
     "electron-installer-dmg": "^0.2.1",
-    "electron-installer-flatpak": "^0.8.0",
     "electron-packager": "^9.1.0",
     "electron-winstaller": "^2.6.4",
     "mocha": "^3.5.0"
+  },
+  "optionalDependencies": {
+    "electron-installer-flatpak": "^0.8.0"
   },
   "repository": {
     "type": "git",
@@ -33,7 +35,7 @@
   },
   "license": "GPL-3.0",
   "scripts": {
-    "test": "mocha",
+    "test": "node ./node_modules/mocha/bin/mocha",
     "start": "electron .",
     "license": "npm-license-crawler --json licenses.json",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=img/icon256x256.icns --prune=true --out=release-builds",
