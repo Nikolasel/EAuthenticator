@@ -100,24 +100,24 @@ If you fill in a new password you can change your password with clicking 'Save'.
     ```
     npm run license
     ```
-6. Optional: Run unit tests
+6. **Optional**: Run unit tests
 
     ```
     npm test
     ```
-7. Optional: To try the software run the following command
+7. **Optional**: To try the software run the following command
 
     ```
     npm start
     ```
 ### Build for Linux via Flatpak
-Note: Build this on a Linux operating system.
+**Note: Build this on a Linux operating system.**
 
 8. Install [flatpak](https://flatpak.org/getting.html) and the flatpak runtime for your operating system.
 
 9. Install flatpak-builder for your operating system
 
-10. Run the following command to package a executable
+10. Run the following command to build executables
     ```
     npm run package-linux
     ```
@@ -128,9 +128,9 @@ Note: Build this on a Linux operating system.
 The flatpak file will be in the directory release-builds/installers
 
 ### Build for Windows
-Note: Build this on Windows.
+**Note: Build this on Windows.**
 
-8. Run the following command to package a executable
+8. Run the following command to build executables
     ```
     npm run package-win
     ```
@@ -140,9 +140,9 @@ Note: Build this on Windows.
      ```
      
 ### Build for macOS
-Note: Build this on macOS.
+**Note: Build this on macOS.**
 
-8. Run the following command to package a executable
+8. Run the following command to build executables
     ```
     npm run package-mac
     ```
@@ -154,7 +154,7 @@ Note: Build this on macOS.
 
 ## Storage design
 
-Coming soon
+**Coming soon**
 
 ## License
 
