@@ -1,6 +1,6 @@
 # An Electron Desktop app compatible with Google Authenticator
 
-<div style="text-align:center"><img src="img/title.png" alt="EAuthenticator" width=517 height=233></div>
+<img src="img/title.png" alt="EAuthenticator" width=517 height=233>
 
 This is an open source two-factor authentication software which encrypts your data by default. It uses [electron](https://electronjs.org/) and it is similarly designed to [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2). This gives it the name 'EAuthenticator'. EAuthenticator is an easy to use Authenticator for desktop operating systems. At the moment EAuthenticator only supports Time-based One-Time Password algorithm (TOTP) [RFC 6238](https://tools.ietf.org/html/rfc6238).
 
@@ -78,7 +78,7 @@ If you fill in a new password you can change your password with clicking 'Save'.
 
 ### Requirements for all platforms
 
-1. Install npm for your operating system
+1. Install [Node.js](https://nodejs.org/en/download/) and npm for your operating system
 
 2. Install dependencies
 
@@ -104,7 +104,7 @@ If you fill in a new password you can change your password with clicking 'Save'.
 ### Build for Linux via Flatpak
 Note: Build this on a Linux operating system.
 
-1. Install flatpak and the flatpak runtime for your operating system.
+1. Install [flatpak](https://flatpak.org/getting.html) and the flatpak runtime for your operating system.
 
 2. Install flatpak-builder for your operating system
 
