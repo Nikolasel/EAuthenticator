@@ -20,6 +20,6 @@ function getInstallerConfig () {
         outputDirectory: path.join(outPath, 'installers'),
         exe: 'EAuthenticator.exe',
         setupExe: 'EAuthenticatorInstaller.exe',
-        setupIcon: path.join(rootPath, 'img', 'icon300x300.png')
+        setupIcon: path.join(rootPath, 'img', 'icon256x256.ico')
     })
 }
