@@ -135,7 +135,7 @@ If you fill in a new password you can change your password with clicking 'Save'.
         ```
     * Fedora
       ```
-      sudo apt-get install rpm-build
+      sudo dnf install rpm-build
        ```
 10. Create an installer with
      ```
