@@ -128,10 +128,17 @@ Note: Build this on a Linux operating system.
 The flatpak file will be in the directory release-builds/installers
 
 ### Build for Windows
+Note: Build this on Windows.
 
-
-
-
+8. Run the following command to package a executable
+    ```
+    npm run package-win
+    ```
+9. Create an installer with
+     ```
+     npm run create-installer-win
+     ```
+     
 ### Build for macOS
 Note: Build this on macOS.
 

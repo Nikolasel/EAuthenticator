@@ -14,10 +14,10 @@ function getInstallerConfig () {
     const outPath = path.join(rootPath, 'release-builds');
 
     return Promise.resolve({
-        appDirectory: path.join(outPath, 'EAuthenticator-win32-ia32/'),
+        appDirectory: path.join(outPath, 'EAuthenticator-win32-x64/'),
         authors: 'Nikolasel',
         noMsi: true,
-        outputDirectory: path.join(outPath, 'installers'),
+        outputDirectory: path.join(outPath, 'win-installer'),
         exe: 'EAuthenticator.exe',
         setupExe: 'EAuthenticatorInstaller.exe',
         setupIcon: path.join(rootPath, 'img', 'icon256x256.ico')

@@ -35,11 +35,11 @@
   },
   "license": "GPL-3.0",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha",
+    "test": "mocha",
     "start": "electron .",
     "license": "npm-license-crawler --json licenses.json",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=img/icon256x256.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . EAuthenticator --overwrite --asar --platform=win32 --arch=ia32 --icon=img/icon256x256.ico --prune=true --out=release-builds --version-string.CompanyName=Nikolasel --version-string.FileDescription=EAuthenticator --version-string.ProductName=\"EAuthenticator\"",
+    "package-win": "electron-packager . EAuthenticator --overwrite --asar --platform=win32 --arch=x64 --icon=img/icon256x256.ico --prune=true --out=release-builds --version-string.CompanyName=Nikolasel --version-string.FileDescription=EAuthenticator --version-string.ProductName=\"EAuthenticator\"",
     "package-linux": "electron-packager . EAuthenticator --overwrite --platform=linux --arch=x64 --icon=img/icon300x300.png --prune=true --out=release-builds",
     "create-installer-mac": "electron-installer-dmg ./release-builds/EAuthenticator-darwin-x64/EAuthenticator.app EAuthenticator --out=release-builds --overwrite --icon=img/icon256x256.icns --background=img/background-mac-installer.png",
     "create-installer-win": "node installers/windows/createinstaller.js",
