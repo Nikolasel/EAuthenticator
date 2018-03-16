@@ -23,10 +23,12 @@
   "devDependencies": {
     "electron-installer-debian": "^0.8.1",
     "electron-installer-dmg": "^0.2.1",
-    "electron-installer-redhat": "^0.5.0",
     "electron-packager": "^9.1.0",
     "electron-winstaller": "^2.6.4",
     "mocha": "^3.5.0"
+  },
+  "optionalDependencies": {
+    "electron-installer-redhat": "^0.5.0"
   },
   "repository": {
     "type": "git",
