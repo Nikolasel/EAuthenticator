@@ -444,3 +444,11 @@ function setupLock() {
         idleLock();
     }
 }
+
+
+function handleKeypressEvent(event) {
+    if (event.keyCode === 13) {
+        tryDecrypt();
+        return false;
+    }
+}
