@@ -20,7 +20,7 @@ function getInstallerConfig () {
         outputDirectory: path.join(outPath, 'win-installer'),
         exe: 'EAuthenticator.exe',
         setupExe: 'EAuthenticatorInstaller.exe',
-        iconUrl: path.join(rootPath, 'img', 'icon256x256.ico')
-        ,
+        iconUrl: path.join(rootPath, 'img', 'icon256x256.ico'),
+        setupIcon: path.join(rootPath, 'img', 'icon256x256.ico'),
     })
 }
