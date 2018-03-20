@@ -41,9 +41,9 @@ function addAccount() {
     }
     //evaluate secret
     try {
-        //To short
+        //Too short
         if(secretValue.length < 16) {
-            throw new Error ("The secret is too short");
+            throw new Error ("The secret is too short. Minimum is 16 characters.");
         }
         //False chars
         let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
