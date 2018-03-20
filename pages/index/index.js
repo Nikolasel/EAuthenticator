@@ -103,7 +103,7 @@ function showAccounts() {
             spanEnd.className += " mdl-list__item-secondary-action";
             let btnCopy = document.createElement('button');
             btnCopy.className += " mdl-button mdl-js-button mdl-button--icon";
-            btnCopy.innerHTML = "<div id='copyButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>content_copy</div>" +
+            btnCopy.innerHTML = "<div id='copyButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400 button-no-focus-style'>content_copy</div>" +
                                 "<div class='mdl-tooltip capa' data-mdl-for='copyButton" + i + "'>Copy password</div>";
             btnCopy.addEventListener("click", function() {
                 clipboard.writeText(spanPin.innerText.replace(" ", ""));
@@ -113,14 +113,14 @@ function showAccounts() {
             }, false);
             let btnRename = document.createElement('button');
             btnRename.className += " mdl-button mdl-js-button mdl-button--icon";
-            btnRename.innerHTML = "<div id='renameButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>create</div>" +
+            btnRename.innerHTML = "<div id='renameButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400 button-no-focus-style'>create</div>" +
                 "<div class='mdl-tooltip capa' data-mdl-for='renameButton" + i + "'>Rename account</div>";
             btnRename.addEventListener("click", function() {
                 showRenameAccount(name);
             }, false);
             let btnDelete = document.createElement('button');
             btnDelete.className += " mdl-button mdl-js-button mdl-button--icon";
-            btnDelete.innerHTML = "<div id='deleteButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400'>delete</div>" +
+            btnDelete.innerHTML = "<div id='deleteButton" + i + "' class='icon material-icons mdl-color-text--blue-grey-400 button-no-focus-style'>delete</div>" +
                 "<div class='mdl-tooltip capa' data-mdl-for='deleteButton" + i + "'>Delete account</div>";
             btnDelete.addEventListener("click", function() {
                 showDeleteAccount(name);
@@ -430,6 +430,9 @@ function idleLock() {
     }
 }
 
+/**
+ * Activate the auto lock
+ */
 function setupLock() {
     let defaultPassword = ipcRenderer.sendSync('useDefaultPassword');
     if(defaultPassword) {
@@ -445,7 +448,11 @@ function setupLock() {
     }
 }
 
-
+/**
+ * Handle enter on decrypt
+ * @param event
+ * @return {boolean}
+ */
 function handleKeypressEvent(event) {
     if (event.keyCode === 13) {
         tryDecrypt();

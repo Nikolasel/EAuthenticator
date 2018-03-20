@@ -163,7 +163,7 @@ function checkTime() {
             timeMessage.innerHTML =  "Your clock is " + sec + " seconds ahead";
             return;
         }
-        timeMessage.innerHTML = "Your time ist good enough";
+        timeMessage.innerHTML = "Your time is good enough";
     });
 }
 

@@ -24,19 +24,19 @@
             <div class="mdl-layout-spacer"></div>
             <!-- Navigation -->
             <nav class="mdl-navigation">
-                <button class="mdl-button mdl-js-button mdl-button--icon" onclick="openSettings()">
+                <button class="mdl-button mdl-js-button mdl-button--icon button-no-focus-style" onclick="openSettings()">
                     <div id="set" class="icon material-icons">settings</div>
                     <div class="mdl-tooltip capa" data-mdl-for="set">
                         Settings
                     </div>
                 </button>
-                <button class="mdl-button mdl-js-button mdl-button--icon" onclick="openAbout()">
+                <button class="mdl-button mdl-js-button mdl-button--icon button-no-focus-style" onclick="openAbout()">
                     <div id="abo" class="icon material-icons">info</div>
                     <div class="mdl-tooltip capa" data-mdl-for="abo">
                         About EAuthenticator
                     </div>
                 </button>
-                <button id='appLocker' class="mdl-button mdl-js-button mdl-button--icon" onclick="lockApp()">
+                <button id='appLocker' class="mdl-button mdl-js-button mdl-button--icon button-no-focus-style" onclick="lockApp()">
                     <div id="lock" class="icon material-icons">lock_outline</div>
                     <div id='lockerText' class="mdl-tooltip capa" data-mdl-for="lock">
                         Lock app
@@ -90,7 +90,7 @@
     <div class="mdl-dialog__content">
         <p>Are you sure you want to delete this?</p>
         <p>You can't get it back.</p>
-        <p>Remove two factor authentication from your account before delete this.</p>
+        <p>Remove two-factor authentication from your account before delete this.</p>
     </div>
     <div class="mdl-dialog__actions">
         <button type="button" class="mdl-button mdl-button--colored" onclick="deleteAccount()">Delete</button>
@@ -101,7 +101,7 @@
 <dialog id="dialog-decrypt" class="mdl-dialog" onkeypress="handleKeypressEvent(event)">
     <h4 class="mdl-dialog__title">Decrypt</h4>
     <div class="mdl-dialog__content">
-        <p>Your data ist encrypted. Type in the password.</p>
+        <p>Your data is encrypted. Type in the password.</p>
         <div class="mdl-textfield mdl-js-textfield" id="container-decrypt">
             <input class="mdl-textfield__input" type="password" id="input-decrypt">
             <label class="mdl-textfield__label" for="input-decrypt">Password</label>
@@ -116,7 +116,7 @@
 <dialog id="dialog-new-password" class="mdl-dialog">
     <h4 class="mdl-dialog__title">Password?</h4>
     <div class="mdl-dialog__content">
-        <p>Do you want to encrypt your data? If yes fill the passwords else click 'CLOSE'.</p>
+        <p>Would you like to encrypt your data? If so, fill in the passwords, otherwise click on "CLOSE".</p>
         <div class="mdl-textfield mdl-js-textfield" id="container-password1">
             <input class="mdl-textfield__input" type="password" id="input-password1">
             <label class="mdl-textfield__label" for="input-password1">Password</label>

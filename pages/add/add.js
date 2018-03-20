@@ -27,7 +27,7 @@ function addAccount() {
     //evaluate account
     try {
         if(accountValue === "") {
-            throw new Error ("Name can't be empty");
+            throw new Error ("The name can't be empty");
         }
         /*if(storage.isNameDuplicate(accountValue)) {
             throw new Error ("Name already exists");
@@ -43,13 +43,14 @@ function addAccount() {
     try {
         //To short
         if(secretValue.length < 16) {
-            throw new Error ("Secret ist to short");
+            throw new Error ("The secret is too short");
         }
         //False chars
         let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
         secretValue = secretValue.toUpperCase();
+        secretValue = secretValue.replace(" ", "");
         if(!allCharsInAlphabet(chars, secretValue)) {
-            throw new Error ("Secret is wrong. It can only contains 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.");
+            throw new Error ("The secret is wrong. It can only contain 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.");
         }
     }
     catch (e) {
@@ -59,8 +60,7 @@ function addAccount() {
         errors = true;
     }
     if(!errors){
-        try{
-
+        try {
             let result = ipcRenderer.sendSync("addAccount", {account:{name: accountValue, secret:secretValue}});
             checkIPCMessage(result);
             history.go(-1);

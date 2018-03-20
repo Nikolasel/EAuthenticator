@@ -12,6 +12,10 @@ const url = require('url');
 const {ipcMain} = require('electron');
 const {dialog} = require('electron');
 
+require('electron-context-menu')({
+    showInspectElement: false
+});
+
 //Storage
 let StorageEngine = require('./lib/storage');
 let storage;

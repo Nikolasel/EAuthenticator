@@ -43,7 +43,7 @@ h5 {
     display: none;
 }
 
-#time-btn {
+.standard-button-padding {
     margin-top: 20px;
 }
 
