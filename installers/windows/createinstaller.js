@@ -21,5 +21,6 @@ function getInstallerConfig () {
         exe: 'EAuthenticator.exe',
         setupExe: 'EAuthenticatorInstaller.exe',
         setupIcon: path.join(rootPath, 'img', 'icon256x256.ico'),
+        iconUrl: 'https://github.com/Nikolasel/EAuthenticator/blob/master/img/icon256x256.ico'
     })
 }

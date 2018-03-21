@@ -10,7 +10,11 @@ This is an open source two-factor authentication software which encrypts your da
 
 ## How to USE
 
-Look at the corresponding [Wiki](https://github.com/Nikolasel/EAuthenticator/wiki/How-to-USE) page.
+This is the standard view of the application:
+
+<img src="img/standard.png" alt="EAuthenticator" width=800 height=600>
+
+For more information look at the corresponding [Wiki](https://github.com/Nikolasel/EAuthenticator/wiki/How-to-USE) page.
 
 ## How to BUILD
 
