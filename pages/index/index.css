@@ -7,13 +7,13 @@
 }
 
 .mdl-layout__content {
-    padding: 24px 12px;
+    padding: 3px 12px 6px;
 }
 
 .mdl-button-right-bottom {
     position: fixed;
-    right: 32px;
-    bottom: 32px;
+    right: 16px;
+    bottom: 16px;
     z-index: 1;
 }
 
@@ -36,7 +36,7 @@ body {
 }
 
 hr {
-    height: 5px;
+    height: 0px;
     border: 0;
 }
 

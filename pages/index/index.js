@@ -41,7 +41,7 @@ function openSettings() {
 function openAbout() {
     openAboutWindow({
         icon_path: '../../img/icon300x300.png',
-        copyright: 'Copyright(c) 2018 Nikolasel',
+        copyright: 'Copyright(c) 2018 Nikolas Eller',
         homepage: 'https://github.com/Nikolasel/EAuthenticator',
         description: 'An Electron Desktop app compatible with Google Authenticator',
         license: 'GPL-3.0',
