@@ -18,7 +18,7 @@
     "open": "^0.0.5",
     "openpgp": "^2.5.10",
     "secure-random": "^1.1.1",
-    "sntp": "=2.0.1",
+    "sntp": "^2.1.0",
     "text-encoding": "^0.6.4"
   },
   "devDependencies": {
