@@ -8,7 +8,7 @@
   "dependencies": {
     "about-window": "^1.12.1",
     "chart.js": "^2.7.2",
-    "electron": "^1.8.8",
+    "electron": "^2.0.0",
     "electron-context-menu": "^0.9.1",
     "js-chacha20": "^1.1.0",
     "jssha": "^2.3.1",
