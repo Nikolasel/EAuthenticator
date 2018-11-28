@@ -43,7 +43,6 @@ describe('Storage Test', function () {
 
     beforeEach(function () {
         setTimeout(function(){
-            console.log("waited 1000ms");
         }, 1000);
     });
 
