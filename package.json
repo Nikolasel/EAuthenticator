@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "electron-installer-dmg": "^0.2.1",
-    "electron-packager": "^9.1.0",
+    "electron-packager": "^12.1.0",
     "electron-winstaller": "^2.6.4",
     "mocha": "^5.2.0"
   },
