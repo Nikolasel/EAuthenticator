@@ -47,8 +47,8 @@ describe('Storage Test', function () {
     });
 
     it('Check Storage: no file', function () {
-        let storage = new StorageEngine("../Files/noFile");
-        assert.equal(storage.noFileFound(), true);
+        let storage = new StorageEngine("Files/noFile");
+        assert.deepStrictEqual(storage.noFileFound(), true);
     });
     it('Check Storage: no valid file', function () {
         assert.throws(function () {
@@ -56,17 +56,17 @@ describe('Storage Test', function () {
         }, Error, "Error during parsing. This message / key probably does not conform to a valid OpenPGP format.");
     });
     it('Check Storage: valid file not default password', function () {
-        assert.equal(storage3.needPassword(), true);
+        assert.deepStrictEqual(storage3.needPassword(), true);
     });
     it('Check Storage: valid file default password', function () {
-        assert.equal(storage2.needPassword(), false);
+        assert.deepStrictEqual(storage2.needPassword(), false);
     });
 
     it('Check Storage: change Password successful', function () {
         storage2.changePassword("defaultPassword", "hallo");
         let dec = new TextDecoder;
         let decryptedPassword = dec.decode(new ChaCha20(storage2.keyPassword, storage2.keyPasswordNonce).decrypt(storage2.chaChaPassword));
-        assert.equal(decryptedPassword, "hallo");
+        assert.deepStrictEqual(decryptedPassword, "hallo");
     });
 
     it('Check Storage: change Password unsuccessful', function () {
@@ -79,8 +79,8 @@ describe('Storage Test', function () {
         let dec = new TextDecoder;
         let decryptedPassword = dec.decode(new ChaCha20(storage1.keyPassword, storage1.keyPasswordNonce).decrypt(storage1.chaChaPassword));
         let decryptedAccounts = dec.decode(new ChaCha20(storage1.keyAccount, storage1.keyAccountNonce).decrypt(storage1.chaChaAccounts));
-        assert.equal(decryptedPassword, '1234');
-        assert.equal(decryptedAccounts, '[{"name":"test","secret":"blala"}]');
+        assert.deepStrictEqual(decryptedPassword, '1234');
+        assert.deepStrictEqual(decryptedAccounts, '[{"name":"test","secret":"blala"}]');
     });
 
     it('Check Storage: check lock storage', function () {
@@ -91,12 +91,12 @@ describe('Storage Test', function () {
         storage2.pathToFile = "Files/test.gpg";
         let promise = storage2.lockFile();
         promise.then(function () {
-            assert.equal(storage2.chaChaAccounts, '');
-            assert.equal(storage2.chaChaPassword, '');
-            assert.notEqual(storage2.keyAccount, oldKeyAccounts);
-            assert.notEqual(storage2.keyAccountNonce, oldKeyAccountNonce);
-            assert.notEqual(storage2.keyPassword, oldKeyPassword);
-            assert.notEqual(storage2.keyPasswordNonce, oldKeyPasswordNonce);
+            assert.deepStrictEqual(storage2.chaChaAccounts, '');
+            assert.deepStrictEqual(storage2.chaChaPassword, '');
+            assert.notDeepStrictEqual(storage2.keyAccount, oldKeyAccounts);
+            assert.notDeepStrictEqual(storage2.keyAccountNonce, oldKeyAccountNonce);
+            assert.notDeepStrictEqual(storage2.keyPassword, oldKeyPassword);
+            assert.notDeepStrictEqual(storage2.keyPasswordNonce, oldKeyPasswordNonce);
             fs.unlinkSync("Files/test.gpg");
         });
     });
@@ -115,30 +115,30 @@ describe('Storage Test: Account functions', function () {
     it('Check Storage: get All Accounts', function () {
         let result = storage.getAllAccounts();
         let totpPin = new TOTP("blala").getPinAsString();
-        assert.equal(result.length, 1);
-        assert.equal(result[0].name, 'test');
-        assert.equal(result[0].pin, totpPin);
+        assert.deepStrictEqual(result.length, 1);
+        assert.deepStrictEqual(result[0].name, 'test');
+        assert.deepStrictEqual(result[0].pin, totpPin);
     });
 
 
     it('Check Storage: rename account', function () {
         storage.renameAccount('test', 'newTest');
         let result = storage.getAllAccounts();
-        assert.equal(result.length, 1);
-        assert.equal(result[0].name, 'newTest');
+        assert.deepStrictEqual(result.length, 1);
+        assert.deepStrictEqual(result[0].name, 'newTest');
     });
 
     it('Check Storage: delete account valid', function () {
         storage.deleteAccount('newTest');
         let result = storage.getAllAccounts();
-        assert.equal(result.length, 0);
+        assert.deepStrictEqual(result.length, 0);
     });
 
     it('Check Storage: add account valid', function () {
         let account = {name: "test", secret: "blala"};
         storage.addAccount(account);
         let result = storage.getAllAccounts();
-        assert.equal(result.length, 1);
+        assert.deepStrictEqual(result.length, 1);
     });
 
     it('Check Storage: add account invalid', function () {
@@ -157,7 +157,7 @@ describe('Storage Test: Account functions', function () {
 });
 
 function unlockStorage(storage, password) {
-    storage.unlockFile(password, false).then(function () {
+    storage.unlockFile(password).then(function () {
         console.log("Unlock Storage successful!");
     });
 }

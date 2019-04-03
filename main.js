@@ -53,6 +53,7 @@ function createWindow() {
     });
 
     // Remove menu
+    // TODO Bug in in electron 4.1.3
     win.setMenu(null);
 
     // and load the index.html of the app.

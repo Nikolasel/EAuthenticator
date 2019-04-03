@@ -156,33 +156,40 @@ function resetEncryption() {
  * Use ntp to check the current time of the pc
  */
 function checkTime() {
+
+    ntpTimeCompare().then(function (message) {
+        dialog = document.getElementById("dialog-time");
+        dialog.showModal();
+        let timeMessage = document.getElementById("text-time");
+        timeMessage.innerHTML = message;
+    });
+}
+
+/**
+ * Compares NTP with system time and returns a diff message as Promise
+ */
+function ntpTimeCompare() {
     let options = {
         host: 'time.google.com',  // Defaults to pool.ntp.org
         port: 123,                      // Defaults to 123 (NTP)
         resolveReference: true,         // Default to false (not resolving)
         timeout: 100                   // Defaults to zero (no timeout)
     };
-    Sntp.time(options, function (err, time) {
 
-        dialog = document.getElementById("dialog-time");
-        dialog.showModal();
-        let timeMessage = document.getElementById("text-time");
-        if (err) {
-            timeMessage.innerHTML = 'Failed: ' + "Cannot connect to time server";
-            return;
-        }
+    return Sntp.time(options).then( function (time) {
         if(time.t > 100 ) {
-            let sec = Math.round((time.t / 1000) * 10) / 10;
-            timeMessage.innerHTML = "Your clock is " + sec + " seconds behind";
-            return;
+            let sec = Math.round(Math.abs(time.t / 1000) * 10) / 10;
+            return Promise.resolve("Your clock is " + sec + " seconds behind");
         }
         if(time.t < -100) {
             let sec = Math.round(Math.abs(time.t / 1000) * 10) / 10;
-            timeMessage.innerHTML =  "Your clock is " + sec + " seconds ahead";
-            return;
+            return Promise.resolve("Your clock is " + sec + " seconds ahead");
         }
-        timeMessage.innerHTML = "Your time is good enough";
+        return Promise.resolve("Your time is good enough");
+    }).catch(function () {
+        return Promise.resolve("Failed: Cannot connect to time server");
     });
+
 }
 
 /**
