@@ -29,6 +29,7 @@ const path = require('path');
 const url = require('url');
 const {ipcMain} = require('electron');
 const {dialog} = require('electron');
+const windowStateKeeper = require('electron-window-state');
 
 require('electron-context-menu')({
     showInspectElement: false
@@ -43,10 +44,16 @@ let storage;
 let win;
 
 function createWindow() {
+	// Get stored window dimension from last time
+	let mainWindowState = windowStateKeeper({
+		defaultWidth: 800,
+		defaultHeight: 600
+	});
+	
     // Create the browser window.
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: mainWindowState.width,
+        height: mainWindowState.height,
         minHeight: 300,
         minWidth: 450,
         icon: path.join(__dirname, 'img/icon64x64.png')
@@ -79,7 +86,11 @@ function createWindow() {
         });
 
     });
-
+	
+	// Let us register listeners on the window, so we can update the state
+	// automatically (the listeners will be removed when the window is closed)
+	// and restore the maximized or full screen state
+	mainWindowState.manage(win);
 }
 
 // This method will be called when Electron has finished
