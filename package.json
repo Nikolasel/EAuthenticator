@@ -28,7 +28,7 @@
     "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^13.1.1",
     "electron-winstaller": "^3.0.4",
-    "mocha": "^6.1.3"
+    "mocha": "^10.2.0"
   },
   "optionalDependencies": {
     "electron-installer-debian": "^1.1.1",
